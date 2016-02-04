@@ -7,9 +7,7 @@ to view potentional cantidates and make quick decisions about who to extend an
 interview to.  
 
 Application created by:
-Adam Heimendinger
 Mac Liu
-Timothe Simth
 Austin Bullard
 
 Platforms/Languages:
