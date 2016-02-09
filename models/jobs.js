@@ -28,3 +28,11 @@ var JobSchema = new mongoose.Schema({
 });
 
 var Job = module.exports = mongoose.model('job', JobSchema);
+
+
+/*
+ *	Function creates a new job
+ */
+module.exports.createJob = function(newJob, callback) {
+	newJob.save(callback);
+}

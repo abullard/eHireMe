@@ -9,7 +9,7 @@ var router = express.Router();
 var Employer = require('../models/employers');
 
 /* 
- * GET employers by company their name. 
+ * GET employers by their company name. 
  */
 router.get('/:company', function(req, res, next) {
   	Employer.findOne({company : req.params.name}, function(err,employer) {
