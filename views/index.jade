@@ -1,5 +1,24 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1 eHireMe API
+      div
+      h2
+        | Applicant (/applicants)
+      li
+        ul
+          | /:name (GET) - find applicant by their name
+        ul
+          | /login (POST), body : {email,password} - login applicant, if successful then sends applicant, else an empty object
+        ul
+          | /register (POST), body : {name,dob,age,email,password,bio,city,state,confirmPassword} - registers a new applicant
+    div
+      h2
+        | Employers (/employers)
+      li
+        ul
+          | /:company (GET) - find employers by their company name
+        ul
+          | /login (POST), body : {email,password} - login applicant, if successful then sends applicant, else an empty object
+        ul
+          | /register (POST), body : {company,email,password,description,confirmPassword} - registers a new employer

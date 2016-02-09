@@ -13,7 +13,7 @@ var JobSchema = new mongoose.Schema({
 		type : String,
 		index : true
 	},
-	company_id : {
+	employer_id : {
 		type : String
 	},
 	description : {

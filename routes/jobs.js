@@ -13,7 +13,7 @@ var Employer = require('../models/employer');
  * GET jobs by their employer id. 
  */
 router.get('/:id', function(req, res, next) {
-  	Jobs.findAll({company_id : req.params.id}, function(err,employers) {
+  	Jobs.findAll({employer : req.params.id}, function(err,employers) {
   		if (err) {
   			throw err;
   		} else {
@@ -27,14 +27,14 @@ router.get('/:id', function(req, res, next) {
  */
 router.post('/create', function(req, res, next) {
 	var company  = req.body.company;
-	var company_id = req.body.company_id;
+	var employer_id = req.body.employer_id;
 	var type = req.body.type;
 	var description = req.body.description;
 	var hourly_rate = req.body.hourly_rate;
 
 	var newJob = new Jobs({
 		company_name : company,
-		company_id : company_id,
+		employer_id : employer_id,
 		type : type,
 		description : description,
 		hourly_rate : hourly_rate

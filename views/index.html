@@ -1,0 +1,32 @@
+<div>
+	<h2>
+		Applicant (/applicants)
+	</h2>
+	<li>
+		<ul>
+			/:name (GET) - find applicant by their name
+		</ul>
+		<ul>
+			/login (POST), body : {email,password} - login applicant, if successful then sends applicant, else an empty object
+		</ul>
+		<ul>
+			/register (POST), body : {name,dob,age,email,password,bio,city,state,confirmPassword} - registers a new applicant
+		</ul>
+	</li>
+</div>
+<div>
+	<h2>
+		Employers (/employers)
+	</h2>
+	<li>
+		<ul>
+			/:company (GET) - find employers by their company name
+		</ul>
+		<ul>
+			/login (POST), body : {email,password} - login applicant, if successful then sends applicant, else an empty object
+		</ul>
+		<ul>
+			/register (POST), body : {company,email,password,description,confirmPassword} - registers a new employer
+		</ul>
+	</li>
+</div>
