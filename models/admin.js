@@ -1,5 +1,5 @@
 /*
- * Employer Model.
+ * Admin Model.
  * @author - Mac Liu
  */
 
@@ -7,27 +7,21 @@ var mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost/eHireMe");
 var db = mongoose.connection;
 
-//Employer Schema
-var EmployerSchema = new mongoose.Schema({
+//Admin Schema
+var AdminSchema = new mongoose.Schema({
 	company : {
 		type : String,
 		index : true
 	},
 	password : {
 		type : String
-	},
-	business_email : {
-		type : String
-	},
-	description : {
-		type : String
 	}
 });
 
-var Employer = module.exports = mongoose.model('employers', EmployerSchema);
+var Admin = module.exports = mongoose.model('admin', AdminSchema);
 
 /*
- *	Function hashs employer's password. 
+ *	Function hashs admin's password. 
  *	TODO - UPDATE HASHING METHOD, TOO SIMPLE ATM
  */
 var hash = function (str) {
@@ -41,7 +35,7 @@ var hash = function (str) {
 };
 
 /*
- *	Function compares the login password given, to the employer's stored password.
+ *	Function compares the login password given, to the admin's stored password.
  */
 module.exports.comparePassword = function(candidatePassword, hashp, callback) {
 	candidatePassword = hash(candidatePassword);
@@ -53,11 +47,11 @@ module.exports.comparePassword = function(candidatePassword, hashp, callback) {
 }
 
 /*
- *	Function creates a new user from given employer information
+ *	Function creates a new admin from given admin information
  */
-module.exports.createEmployer = function(newEmployer, callback) {
-	newEmployer.password = hash(newEmployer.password);
-	newEmployer.save(callback);
+module.exports.createAdmin = function(newAdmin, callback) {
+	newAdmin.password = hash(newAdmin.password);
+	newAdmin.save(callback);
 }
 
 
