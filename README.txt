@@ -10,6 +10,7 @@ Application created by:
 Mac Liu
 Austin Bullard
 Adam Heimendinger
+Timothe Smith
 
 Platforms/Languages:
 -NodeJS
