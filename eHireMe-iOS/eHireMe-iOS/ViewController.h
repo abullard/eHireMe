@@ -10,6 +10,12 @@
 
 @interface ViewController : UIViewController
 
+//IBOutlets
+@property (strong, nonatomic) IBOutlet UITextField *emailTextField;
+@property (strong, nonatomic) IBOutlet UITextField *passwordTextField;
+
+//IBActions
+- (IBAction)loginButtonPressed:(UIButton *)sender;
 
 @end
 
