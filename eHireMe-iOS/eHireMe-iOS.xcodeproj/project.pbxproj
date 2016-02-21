@@ -16,6 +16,9 @@
 		29054D221C77F6B8000380B1 /* EHMApplicant.m in Sources */ = {isa = PBXBuildFile; fileRef = 29054D211C77F6B8000380B1 /* EHMApplicant.m */; };
 		29054D251C77F6F0000380B1 /* EHMApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 29054D241C77F6F0000380B1 /* EHMApi.m */; };
 		29054D281C796687000380B1 /* EHMSwipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29054D271C796687000380B1 /* EHMSwipeViewController.m */; };
+		29054D2E1C796C40000380B1 /* YSLCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 29054D2B1C796C40000380B1 /* YSLCardView.m */; };
+		29054D2F1C796C40000380B1 /* YSLDraggableCardContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 29054D2D1C796C40000380B1 /* YSLDraggableCardContainer.m */; };
+		29054D321C796D1D000380B1 /* CardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 29054D311C796D1D000380B1 /* CardView.m */; };
 		FB7DC5EFFBDC42988583ED94 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 745264900F8326DC5DF91DAF /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +39,12 @@
 		29054D241C77F6F0000380B1 /* EHMApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHMApi.m; sourceTree = "<group>"; };
 		29054D261C796687000380B1 /* EHMSwipeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHMSwipeViewController.h; sourceTree = "<group>"; };
 		29054D271C796687000380B1 /* EHMSwipeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHMSwipeViewController.m; sourceTree = "<group>"; };
+		29054D2A1C796C40000380B1 /* YSLCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YSLCardView.h; sourceTree = "<group>"; };
+		29054D2B1C796C40000380B1 /* YSLCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YSLCardView.m; sourceTree = "<group>"; };
+		29054D2C1C796C40000380B1 /* YSLDraggableCardContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YSLDraggableCardContainer.h; sourceTree = "<group>"; };
+		29054D2D1C796C40000380B1 /* YSLDraggableCardContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YSLDraggableCardContainer.m; sourceTree = "<group>"; };
+		29054D301C796D1D000380B1 /* CardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CardView.h; path = ../CardView.h; sourceTree = "<group>"; };
+		29054D311C796D1D000380B1 /* CardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CardView.m; path = ../CardView.m; sourceTree = "<group>"; };
 		2C02E3D56D5BC631DA440C94 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		745264900F8326DC5DF91DAF /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		84FD77645D4EE3115712826E /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -74,6 +83,7 @@
 		29054D051C77F4E0000380B1 /* eHireMe-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				29054D291C796C40000380B1 /* YSLDraggableCardContainer */,
 				29054D1F1C77F650000380B1 /* Views */,
 				29054D1E1C77F63E000380B1 /* Controllers */,
 				29054D1D1C77F637000380B1 /* Model */,
@@ -123,6 +133,19 @@
 			children = (
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		29054D291C796C40000380B1 /* YSLDraggableCardContainer */ = {
+			isa = PBXGroup;
+			children = (
+				29054D301C796D1D000380B1 /* CardView.h */,
+				29054D311C796D1D000380B1 /* CardView.m */,
+				29054D2A1C796C40000380B1 /* YSLCardView.h */,
+				29054D2B1C796C40000380B1 /* YSLCardView.m */,
+				29054D2C1C796C40000380B1 /* YSLDraggableCardContainer.h */,
+				29054D2D1C796C40000380B1 /* YSLDraggableCardContainer.m */,
+			);
+			path = YSLDraggableCardContainer;
 			sourceTree = "<group>";
 		};
 		4B0134BB6E4FCDE107154649 /* Pods */ = {
@@ -267,6 +290,9 @@
 				29054D0B1C77F4E0000380B1 /* AppDelegate.m in Sources */,
 				29054D081C77F4E0000380B1 /* main.m in Sources */,
 				29054D251C77F6F0000380B1 /* EHMApi.m in Sources */,
+				29054D2F1C796C40000380B1 /* YSLDraggableCardContainer.m in Sources */,
+				29054D2E1C796C40000380B1 /* YSLCardView.m in Sources */,
+				29054D321C796D1D000380B1 /* CardView.m in Sources */,
 				29054D281C796687000380B1 /* EHMSwipeViewController.m in Sources */,
 				29054D221C77F6B8000380B1 /* EHMApplicant.m in Sources */,
 			);
