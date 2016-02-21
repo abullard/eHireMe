@@ -33,14 +33,16 @@ router.get('/:name', function(req, res, next) {
  		// send an empty object
  		if (err) {
  			throw err;
- 		} else {
+ 		} else if (applicant != null) {
  			Applicant.comparePassword(password, applicant.password, function(success) {
  				if (success) {
  					res.send(applicant);
  				} else {
-					res.send({});
+					res.send(null);
  				}
  			});
+ 		} else {
+ 			res.send(null);
  		}
  	});
  });
