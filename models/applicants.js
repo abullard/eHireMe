@@ -58,9 +58,9 @@ var hash = function (str) {
 module.exports.comparePassword = function(candidatePassword, hashp, callback) {
 	candidatePassword = hash(candidatePassword);
 	if (candidatePassword == hashp) {
-		callback(null, true);
+		callback(true);
 	} else {
-		callback(null, false);
+		callback(false);
 	}
 }
 

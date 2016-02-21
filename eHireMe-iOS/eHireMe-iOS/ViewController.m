@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import <AFNetworking.h>
 
 @interface ViewController ()
 
@@ -33,7 +34,25 @@
         return;
     }
     
-    NSLog([NSString stringWithFormat:@"%@ %@", email, password]);
+    NSDictionary *userInfo = @{@"email" : email, @"password" : password};
+    
+    NSString *urlStr = @"http://localhost:3000/applicants/login";
+    
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+
+    [manager POST:urlStr parameters:userInfo progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"%@", responseObject);
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:[responseObject objectForKey:@"id"] forKey:@"EHMUser_ID"];
+        [defaults setObject:[responseObject objectForKey:@"email"] forKey:@"EHMUser_Email"];
+        [defaults synchronize];
+
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"error: %@", error);
+    }];
 }
 
 @end
