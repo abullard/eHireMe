@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import <AFNetworking.h>
 
+#include "EHMConstants.h"
+
 @interface ViewController ()
 
 @end
@@ -30,14 +32,17 @@
     NSString *password = self.passwordTextField.text;
     
     if (email.length == 0 || password.length == 0) {
-        [[[UIAlertView alloc] initWithTitle:@"Hey!" message:@"Fill out the form plz.." delegate:nil cancelButtonTitle:@"Fine.." otherButtonTitles:nil] show];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hey!" message:@"Fill out the form plz.." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:ok];
+        [self presentViewController:alertController animated:YES completion:nil];
+        
         return;
     }
     
     NSDictionary *userInfo = @{@"email" : email, @"password" : password};
     
-    //Temp IP - 192.168.1.124
-    NSString *urlStr = @"http://192.168.1.124:3000/applicants/login";
+    NSString *urlStr = [NSString stringWithFormat:@"%@/applicants/login", baseURL];
     
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
