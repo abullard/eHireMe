@@ -27,10 +27,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+/**
+ * IBAction - Attempts login for given email and password
+ */
 - (IBAction)loginButtonPressed:(UIButton *)sender {
     NSString *email = self.emailTextField.text;
     NSString *password = self.passwordTextField.text;
     
+    //If any of the fields are empty, alert then return to prevent further execution.
     if (email.length == 0 || password.length == 0) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Hey!" message:@"Fill out the form plz.." preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
@@ -60,7 +64,10 @@
             [self performSegueWithIdentifier:@"ToSwipeView" sender:self];
         } else {
             NSLog(@"Error invalid info");
-            [[[UIAlertView alloc] initWithTitle:@"Invalid email or password" message:@"Please try again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Invalid email or password" message:@"Please try again" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            [alertController addAction:ok];
+            [self presentViewController:alertController animated:YES completion:nil];
         }
 
 

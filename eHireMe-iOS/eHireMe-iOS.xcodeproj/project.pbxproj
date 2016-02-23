@@ -14,7 +14,6 @@
 		29054D131C77F4E0000380B1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29054D121C77F4E0000380B1 /* Assets.xcassets */; };
 		29054D161C77F4E0000380B1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29054D141C77F4E0000380B1 /* LaunchScreen.storyboard */; };
 		29054D221C77F6B8000380B1 /* EHMApplicant.m in Sources */ = {isa = PBXBuildFile; fileRef = 29054D211C77F6B8000380B1 /* EHMApplicant.m */; };
-		29054D251C77F6F0000380B1 /* EHMApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 29054D241C77F6F0000380B1 /* EHMApi.m */; };
 		29054D281C796687000380B1 /* EHMSwipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29054D271C796687000380B1 /* EHMSwipeViewController.m */; };
 		29054D2E1C796C40000380B1 /* YSLCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 29054D2B1C796C40000380B1 /* YSLCardView.m */; };
 		29054D2F1C796C40000380B1 /* YSLDraggableCardContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 29054D2D1C796C40000380B1 /* YSLDraggableCardContainer.m */; };
@@ -37,8 +36,6 @@
 		29054D171C77F4E0000380B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		29054D201C77F6B8000380B1 /* EHMApplicant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHMApplicant.h; sourceTree = "<group>"; };
 		29054D211C77F6B8000380B1 /* EHMApplicant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHMApplicant.m; sourceTree = "<group>"; };
-		29054D231C77F6F0000380B1 /* EHMApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHMApi.h; sourceTree = "<group>"; };
-		29054D241C77F6F0000380B1 /* EHMApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHMApi.m; sourceTree = "<group>"; };
 		29054D261C796687000380B1 /* EHMSwipeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHMSwipeViewController.h; sourceTree = "<group>"; };
 		29054D271C796687000380B1 /* EHMSwipeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHMSwipeViewController.m; sourceTree = "<group>"; };
 		29054D2A1C796C40000380B1 /* YSLCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YSLCardView.h; sourceTree = "<group>"; };
@@ -119,8 +116,6 @@
 				293184F21C7CB589004E3F49 /* EHMConstants.m */,
 				29054D201C77F6B8000380B1 /* EHMApplicant.h */,
 				29054D211C77F6B8000380B1 /* EHMApplicant.m */,
-				29054D231C77F6F0000380B1 /* EHMApi.h */,
-				29054D241C77F6F0000380B1 /* EHMApi.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -301,7 +296,6 @@
 				29054D0B1C77F4E0000380B1 /* AppDelegate.m in Sources */,
 				29054D081C77F4E0000380B1 /* main.m in Sources */,
 				293184F31C7CB589004E3F49 /* EHMConstants.m in Sources */,
-				29054D251C77F6F0000380B1 /* EHMApi.m in Sources */,
 				29054D2F1C796C40000380B1 /* YSLDraggableCardContainer.m in Sources */,
 				29054D2E1C796C40000380B1 /* YSLCardView.m in Sources */,
 				29054D321C796D1D000380B1 /* CardView.m in Sources */,
