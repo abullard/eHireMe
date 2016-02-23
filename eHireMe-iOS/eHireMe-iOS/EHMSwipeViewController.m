@@ -31,8 +31,13 @@
 {
     [super viewDidLoad];
     
+    self.navigationController.navigationBar.barTintColor = [UIColor redColor];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+
+    
     _container = [[YSLDraggableCardContainer alloc]init];
-    _container.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    _container.frame = CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height - 80);
     _container.backgroundColor = [UIColor clearColor];
     _container.dataSource = self;
     _container.delegate = self;
@@ -42,7 +47,7 @@
     _datas = [NSMutableArray array];
     for (int i = 0; i < 7; i++) {
         NSDictionary *dict = @{@"image" : [NSString stringWithFormat:@"photo_sample_0%d",i + 1],
-                               @"name" : @"YSLDraggableCardContainer Demo"};
+                               @"name" : @"Mac's Sick Cards #"};
         [_datas addObject:dict];
     }
     
@@ -107,5 +112,16 @@
     {
         NSLog(@"++ Tap card index : %ld",(long)index);
     }
+
+#pragma mark - IBAction buttons
+
+- (IBAction)settingsButtonPressed:(UIBarButtonItem *)sender {
+}
+
+- (IBAction)mathcesButtonPressed:(UIBarButtonItem *)sender {
+}
+
+- (IBAction)allJobsButtonPressed:(UIButton *)sender {
+}
 
 @end

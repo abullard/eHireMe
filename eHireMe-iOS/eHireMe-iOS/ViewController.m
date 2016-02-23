@@ -36,7 +36,8 @@
     
     NSDictionary *userInfo = @{@"email" : email, @"password" : password};
     
-    NSString *urlStr = @"http://localhost:3000/applicants/login";
+    //Temp IP - 192.168.1.124
+    NSString *urlStr = @"http://192.168.1.124:3000/applicants/login";
     
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -53,6 +54,7 @@
             
             [self performSegueWithIdentifier:@"ToSwipeView" sender:self];
         } else {
+            NSLog(@"Error invalid info");
             [[[UIAlertView alloc] initWithTitle:@"Invalid email or password" message:@"Please try again" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
         }
 

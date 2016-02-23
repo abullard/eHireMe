@@ -71,14 +71,14 @@
                     <connections>
                         <outlet property="emailTextField" destination="fn2-oo-7eE" id="TV3-Ii-vbP"/>
                         <outlet property="passwordTextField" destination="RGc-qO-QJi" id="Kfb-Vx-wte"/>
-                        <segue destination="gQf-KG-Aee" kind="presentation" identifier="ToSwipeView" id="yg2-ca-Bb7"/>
+                        <segue destination="jZa-gO-KpS" kind="presentation" identifier="ToSwipeView" id="yg2-ca-Bb7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kWe-lv-egf" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="238" y="315"/>
         </scene>
-        <!--Swipe View Controller-->
+        <!--eHireMe-->
         <scene sceneID="6oq-73-iyb">
             <objects>
                 <viewController id="gQf-KG-Aee" customClass="EHMSwipeViewController" sceneMemberID="viewController">
@@ -89,12 +89,125 @@
                     <view key="view" contentMode="scaleToFill" id="ZEf-AN-PAa">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aRc-6o-qi3">
+                                <rect key="frame" x="20" y="532" width="560" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="LSa-U3-vsx"/>
+                                </constraints>
+                                <state key="normal" title="All Jobs"/>
+                                <connections>
+                                    <action selector="allJobsButtonPressed:" destination="gQf-KG-Aee" eventType="touchUpInside" id="nyV-yq-sAB"/>
+                                    <segue destination="daZ-1F-fY2" kind="show" id="Fz1-24-ZX5"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="elP-nb-1e6" firstAttribute="top" secondItem="aRc-6o-qi3" secondAttribute="bottom" constant="8" id="6G2-af-amU"/>
+                            <constraint firstItem="aRc-6o-qi3" firstAttribute="trailing" secondItem="ZEf-AN-PAa" secondAttribute="trailingMargin" id="bVb-MM-H0s"/>
+                            <constraint firstItem="aRc-6o-qi3" firstAttribute="leading" secondItem="ZEf-AN-PAa" secondAttribute="leadingMargin" id="qPL-TT-oAh"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="eHireMe" id="Y8A-Nk-1iV">
+                        <barButtonItem key="leftBarButtonItem" image="Hamburger-menu" id="Oo1-e0-9Wz">
+                            <connections>
+                                <action selector="settingsButtonPressed:" destination="gQf-KG-Aee" id="zC8-Xo-bQ4"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="message-bubble" id="Llk-Pw-tUU">
+                            <connections>
+                                <action selector="mathcesButtonPressed:" destination="gQf-KG-Aee" id="NDY-KE-knq"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="avc-gf-iVd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1741" y="315"/>
+        </scene>
+        <!--Jobs List View Controller-->
+        <scene sceneID="8j2-Wg-xho">
+            <objects>
+                <viewController id="daZ-1F-fY2" customClass="EHMJobsListViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="QhP-RR-Dz2"/>
+                        <viewControllerLayoutGuide type="bottom" id="ST6-e4-tQw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BuZ-tT-cpg">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="5" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="RXO-Sq-9ww">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="1" green="0.20752805390000001" blue="0.30383084780000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="JobCell" textLabel="M8o-gJ-Yz3" detailTextLabel="6E2-8o-Cc3" style="IBUITableViewCellStyleSubtitle" id="v0t-tD-Mzi">
+                                        <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v0t-tD-Mzi" id="6xe-tz-cVE">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="M8o-gJ-Yz3">
+                                                    <rect key="frame" x="15" y="6" width="31.5" height="19.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6E2-8o-Cc3">
+                                                    <rect key="frame" x="15" y="25.5" width="40.5" height="13.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <sections/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="RXO-Sq-9ww" secondAttribute="trailing" constant="-20" id="TfB-hU-Wz0"/>
+                            <constraint firstItem="ST6-e4-tQw" firstAttribute="top" secondItem="RXO-Sq-9ww" secondAttribute="bottom" id="WqV-Lo-GhI"/>
+                            <constraint firstItem="RXO-Sq-9ww" firstAttribute="leading" secondItem="BuZ-tT-cpg" secondAttribute="leadingMargin" constant="-20" id="YxI-7A-SCD"/>
+                            <constraint firstItem="RXO-Sq-9ww" firstAttribute="top" secondItem="QhP-RR-Dz2" secondAttribute="bottom" id="bZ3-j6-SnO"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="RXO-Sq-9ww" id="tq0-JA-FNg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jDZ-Ig-nt6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2395" y="315"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="f7C-tD-SOu">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jZa-gO-KpS" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ERg-Th-gnA">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="gQf-KG-Aee" kind="relationship" relationship="rootViewController" id="fOF-62-mbY"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AhY-Hv-glb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="929" y="315"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Hamburger-menu" width="44" height="44"/>
+        <image name="message-bubble" width="44" height="44"/>
+    </resources>
 </document>
