@@ -138,6 +138,7 @@
                         <outlet property="emailTextField" destination="qP0-Ry-zne" id="y1I-jq-tkj"/>
                         <outlet property="nameTextField" destination="h3N-lM-3qj" id="Poz-b8-a82"/>
                         <outlet property="passwordTextField" destination="zmJ-BP-AxH" id="PQy-Ui-i7N"/>
+                        <segue destination="gQf-KG-Aee" kind="presentation" identifier="ToSwipeView" id="sKR-gl-HcZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iDc-me-6Xm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -341,7 +342,7 @@
                                 <color key="separatorColor" red="1" green="0.20752805390000001" blue="0.30383084780000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="JobCell" textLabel="M8o-gJ-Yz3" detailTextLabel="6E2-8o-Cc3" style="IBUITableViewCellStyleSubtitle" id="v0t-tD-Mzi">
-                                        <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="v0t-tD-Mzi" id="6xe-tz-cVE">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
@@ -367,7 +368,7 @@
                                 </prototypes>
                                 <sections/>
                             </tableView>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="UYT-QZ-1iR">
+                            <searchBar contentMode="redraw" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UYT-QZ-1iR">
                                 <rect key="frame" x="0.0" y="64" width="600" height="44"/>
                                 <color key="barTintColor" red="1" green="0.20752805390000001" blue="0.30383084780000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -426,4 +427,7 @@
         <image name="delete" width="44" height="44"/>
         <image name="message-bubble" width="44" height="44"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="sKR-gl-HcZ"/>
+    </inferredMetricsTieBreakers>
 </document>

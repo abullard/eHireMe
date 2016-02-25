@@ -61,12 +61,20 @@
         return;
     }
     
-    NSDictionary *newUser = @{@"email" : email, @"password" : password, @"name" : name};
+    NSDictionary *newUser = @{@"email" : email,
+                              @"dob" : @"",
+                              @"age" : [NSNumber numberWithInt:-1],
+                              @"state" : @"",
+                              @"city" : @"",
+                              @"bio" : @"",
+                              @"password" : password,
+                              @"name" : name};
     
     NSString *urlStr = [NSString stringWithFormat:@"%@/applicants/register", baseURL];
     
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
     [manager POST:urlStr parameters:newUser progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -81,7 +89,7 @@
             [self performSegueWithIdentifier:@"ToSwipeView" sender:self];
         } else {
             NSLog(@"Error invalid info");
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Sign up failed" message:@"Please try again later" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Sign up failed" message:@"Please make sure content is correct." preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
             [alertController addAction:ok];
             [self presentViewController:alertController animated:YES completion:nil];
