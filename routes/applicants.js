@@ -60,30 +60,28 @@ router.post('/register', function(req, res, next) {
 	var bio = req.body.bio;
 	var city = req.body.city;
 	var state = req.body.state;
-	var confirmPassword = req.body.cPassword;
 
-	// Verify that password matches
-	if (password == confirmPassword) {
-		// Create a new applicant
-		var newUser = new Applicant({
-			name : name,
-			email :email,
-			password : password,
-			dob : dob,
-			age : age,
-			bio : bio,
-			city : city,
-			state : state
-		});
+	// Create a new applicant
+	var newUser = new Applicant({
+		name : name,
+		email :email,
+		password : password,
+		dob : dob,
+		age : age,
+		bio : bio,
+		city : city,
+		state : state
+	});
 
-		Applicant.createUser(newUser, function(error, user) {
-			if (error) throw error;
+	Applicant.createUser(newUser, function(error, user) {
+		if (error) {
+			res.send(null);
+		} else {
 			console.log(user);
-			res.send(user);
-		});
-	} else {
-		res.send('Could not create new applicant, please make sure all fields are valid');
-	}
+			res.send(user);			
+		}
+
+	});
 });
 
 module.exports = router;
