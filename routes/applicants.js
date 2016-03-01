@@ -9,10 +9,10 @@ var router = express.Router();
 var Applicant = require('../models/applicants');
 
 /* 
- * GET applicant by their name. 
+ * GET applicant by their id. 
  */
-router.get('/:name', function(req, res, next) {
-  	Applicant.findOne({name : req.params.name}, function(err,applicant) {
+router.get('/:id', function(req, res, next) {
+  	Applicant.findById(req.params.id, function(err,applicant) {
   		if (err) {
   			throw err;
   		} else {
@@ -20,6 +20,7 @@ router.get('/:name', function(req, res, next) {
   		}
   	});
 });
+
 
 /*
  * POST - Login user, if successful send user object back in the response

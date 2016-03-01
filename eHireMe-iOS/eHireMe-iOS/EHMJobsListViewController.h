@@ -11,5 +11,6 @@
 @interface EHMJobsListViewController : UIViewController
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end

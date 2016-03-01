@@ -4,8 +4,6 @@
  */
 
 var mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/eHireMe");
-var db = mongoose.connection;
 
 //Employer Schema
 var EmployerSchema = new mongoose.Schema({
@@ -16,7 +14,7 @@ var EmployerSchema = new mongoose.Schema({
 	password : {
 		type : String
 	},
-	business_email : {
+	email : {
 		type : String
 	},
 	description : {

@@ -7,7 +7,20 @@ var express = require('express');
 var router = express.Router();
 
 var Jobs = require('../models/jobs');
-var Employer = require('../models/employer');
+var Employer = require('../models/employers');
+
+/* 
+ * GET All jobs.
+ */
+router.get('', function(req, res, next) {
+  	Jobs.find({}, function(err,employers) {
+  		if (err) {
+  			throw err;
+  		} else {
+  			res.send(employers);
+  		}
+  	});
+});
 
 /* 
  * GET jobs by their employer id. 

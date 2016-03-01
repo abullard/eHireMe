@@ -50,25 +50,20 @@ router.post('/register', function(req, res, next) {
 	var email = req.body.business_email;
 	var password = req.body.password;
 	var description = req.body.description;
-	var confirmPassword = req.body.cPassword;
 
-	// Verify that password matches
-	if (password == confirmPassword) {
-		var newEmployer = new Employer({
-			company : company,
-			business_email : email,
-			password : password,
-			description : description
-		});
+	var newEmployer = new Employer({
+		company : company,
+		business_email : email,
+		password : password,
+		description : description
+	});
 
-		Employer.createEmployer(newEmployer, function(error, employer) {
-			if (error) throw error;
-			console.log(employer);
-			res.send(employer);
-		});
-	} else {
-		res.send('Could not create new Employer, please make sure all fields are valid');
-	}
+	Employer.createEmployer(newEmployer, function(error, employer) {
+		if (error) throw error;
+		console.log(employer);
+		res.send(employer);
+	});
+
 });
 
 module.exports = router;

@@ -58,7 +58,7 @@
         
         if (responseObject != nil) {
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            [defaults setObject:[responseObject objectForKey:@"id"] forKey:@"EHMUser_ID"];
+            [defaults setObject:[responseObject objectForKey:@"_id"] forKey:@"EHMUser_ID"];
             [defaults setObject:[responseObject objectForKey:@"email"] forKey:@"EHMUser_Email"];
             [defaults synchronize];
             

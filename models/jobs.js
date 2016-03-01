@@ -4,8 +4,6 @@
  */
 
 var mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/eHireMe");
-var db = mongoose.connection;
 
 //Job Schema
 var JobSchema = new mongoose.Schema({
@@ -23,7 +21,7 @@ var JobSchema = new mongoose.Schema({
 		type : String
 	},
 	hourly_rate : {
-		type : Number
+		type : String
 	}
 });
 

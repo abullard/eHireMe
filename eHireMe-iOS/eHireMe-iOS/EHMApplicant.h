@@ -18,4 +18,6 @@
 @property(nonatomic) NSInteger *age;
 @property(strong, nonatomic) NSString *dob;
 
+- (id)initWithDictionary:(NSDictionary *)dictionary;
+
 @end
