@@ -13,6 +13,7 @@ var Employer = require('../models/employers');
  * GET All jobs.
  */
 router.get('', function(req, res, next) {
+	console.log("SDfafs");
   	Jobs.find({}, function(err,employers) {
   		if (err) {
   			throw err;
