@@ -21,6 +21,8 @@
 		29054D351C7BE2A0000380B1 /* EHMJobsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29054D341C7BE2A0000380B1 /* EHMJobsListViewController.m */; };
 		293184F31C7CB589004E3F49 /* EHMConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 293184F21C7CB589004E3F49 /* EHMConstants.m */; };
 		29A36EAC1C7D3EFA00765030 /* EHMSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29A36EAB1C7D3EFA00765030 /* EHMSignUpViewController.m */; };
+		29A36EAF1C85195000765030 /* EHMSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29A36EAE1C85195000765030 /* EHMSettingsViewController.m */; };
+		29A36EB21C851B1B00765030 /* EHMProfilePicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 29A36EB11C851B1B00765030 /* EHMProfilePicTableViewCell.m */; };
 		FB7DC5EFFBDC42988583ED94 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 745264900F8326DC5DF91DAF /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +53,10 @@
 		293184F21C7CB589004E3F49 /* EHMConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHMConstants.m; sourceTree = "<group>"; };
 		29A36EAA1C7D3EFA00765030 /* EHMSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHMSignUpViewController.h; sourceTree = "<group>"; };
 		29A36EAB1C7D3EFA00765030 /* EHMSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHMSignUpViewController.m; sourceTree = "<group>"; };
+		29A36EAD1C85195000765030 /* EHMSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHMSettingsViewController.h; sourceTree = "<group>"; };
+		29A36EAE1C85195000765030 /* EHMSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHMSettingsViewController.m; sourceTree = "<group>"; };
+		29A36EB01C851B1B00765030 /* EHMProfilePicTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHMProfilePicTableViewCell.h; sourceTree = "<group>"; };
+		29A36EB11C851B1B00765030 /* EHMProfilePicTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHMProfilePicTableViewCell.m; sourceTree = "<group>"; };
 		2C02E3D56D5BC631DA440C94 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		745264900F8326DC5DF91DAF /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		84FD77645D4EE3115712826E /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -119,6 +125,8 @@
 				293184F21C7CB589004E3F49 /* EHMConstants.m */,
 				29054D201C77F6B8000380B1 /* EHMApplicant.h */,
 				29054D211C77F6B8000380B1 /* EHMApplicant.m */,
+				29A36EB01C851B1B00765030 /* EHMProfilePicTableViewCell.h */,
+				29A36EB11C851B1B00765030 /* EHMProfilePicTableViewCell.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -134,6 +142,8 @@
 				29054D341C7BE2A0000380B1 /* EHMJobsListViewController.m */,
 				29A36EAA1C7D3EFA00765030 /* EHMSignUpViewController.h */,
 				29A36EAB1C7D3EFA00765030 /* EHMSignUpViewController.m */,
+				29A36EAD1C85195000765030 /* EHMSettingsViewController.h */,
+				29A36EAE1C85195000765030 /* EHMSettingsViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -305,9 +315,11 @@
 				29054D2E1C796C40000380B1 /* YSLCardView.m in Sources */,
 				29A36EAC1C7D3EFA00765030 /* EHMSignUpViewController.m in Sources */,
 				29054D321C796D1D000380B1 /* CardView.m in Sources */,
+				29A36EAF1C85195000765030 /* EHMSettingsViewController.m in Sources */,
 				29054D281C796687000380B1 /* EHMSwipeViewController.m in Sources */,
 				29054D221C77F6B8000380B1 /* EHMApplicant.m in Sources */,
 				29054D351C7BE2A0000380B1 /* EHMJobsListViewController.m in Sources */,
+				29A36EB21C851B1B00765030 /* EHMProfilePicTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -33,7 +33,11 @@ var ApplicantSchema = new mongoose.Schema({
 	},
 	state : {
 		type : String
+	},
+	profPic : {
+		type : String
 	}
+
 });
 
 var Applicant = module.exports = mongoose.model('applicants', ApplicantSchema);
