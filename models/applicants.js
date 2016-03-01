@@ -4,7 +4,7 @@
  */
 
 var mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/eHireMe");
+mongoose.connect("mongodb://mliu:wildcats#777@ds019678.mlab.com:19678/heroku_8n1t946l");
 var db = mongoose.connection;
 
 //Applicant Schema
