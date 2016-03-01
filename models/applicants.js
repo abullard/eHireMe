@@ -4,7 +4,7 @@
  */
 
 var mongoose = require('mongoose');
-mongoose.connect("mongodb://mliu388:wildcats#777@ds019678.mlab.com:19678/heroku_8n1t946l");
+mongoose.connect("mongodb://<mliu388>:<wildcats#777>@ds019678.mlab.com:19678/heroku_8n1t946l");
 var db = mongoose.connection;
 
 //Applicant Schema
