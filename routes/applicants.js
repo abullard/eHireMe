@@ -9,10 +9,10 @@ var router = express.Router();
 var Applicant = require('../models/applicants');
 
 /* 
- * GET applicant by their name. 
+ * GET applicant by their id. 
  */
-router.get('/:name', function(req, res, next) {
-  	Applicant.findOne({name : req.params.name}, function(err,applicant) {
+router.get('/:id', function(req, res, next) {
+  	Applicant.findById(req.params.id, function(err,applicant) {
   		if (err) {
   			throw err;
   		} else {
@@ -20,6 +20,33 @@ router.get('/:name', function(req, res, next) {
   		}
   	});
 });
+
+
+/*
+ * POST - Login user, if successful send user object back in the response
+ */
+ router.post('/login', function(req, res, next) {
+ 	var email = req.body.email;
+ 	var password = req.body.password;
+
+ 	Applicant.findOne({email : email}, function(err, applicant) {
+ 		// if the password matches, send applicant in the response, otherwise
+ 		// send an empty object
+ 		if (err) {
+ 			throw err;
+ 		} else if (applicant != null) {
+ 			Applicant.comparePassword(password, applicant.password, function(success) {
+ 				if (success) {
+ 					res.send(applicant);
+ 				} else {
+					res.send(null);
+ 				}
+ 			});
+ 		} else {
+ 			res.send(null);
+ 		}
+ 	});
+ });
 
 /*
  *	POST - extracts content from the rquest body and create/register
@@ -34,30 +61,28 @@ router.post('/register', function(req, res, next) {
 	var bio = req.body.bio;
 	var city = req.body.city;
 	var state = req.body.state;
-	var confirmPassword = req.body.cPassword;
 
-	// Verify that password matches
-	if (password == confirmPassword) {
-		// Create a new applicant
-		var newUser = new Applicant({
-			name : name,
-			email :email,
-			password : password,
-			dob : dob,
-			age : age,
-			bio : bio,
-			city : city,
-			state : state
-		});
+	// Create a new applicant
+	var newUser = new Applicant({
+		name : name,
+		email :email,
+		password : password,
+		dob : dob,
+		age : age,
+		bio : bio,
+		city : city,
+		state : state
+	});
 
-		Applicant.createUser(newUser, function(error, user) {
-			if (error) throw error;
+	Applicant.createUser(newUser, function(error, user) {
+		if (error) {
+			res.send(null);
+		} else {
 			console.log(user);
-			res.send(user);
-		});
-	} else {
-		res.send('Could not create new applicant, please make sure all fields are valid');
-	}
+			res.send(user);			
+		}
+
+	});
 });
 
 module.exports = router;
