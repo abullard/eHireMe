@@ -10,6 +10,6 @@
 
 @interface EHMConstants : NSObject
 
-#define baseURL @"http://localhost:3000"
+#define baseURL @"http://ehireme.herokuapp.com"
 
 @end

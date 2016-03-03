@@ -47,7 +47,7 @@
     
     _datas = [NSMutableArray array];
     for (int i = 0; i < 7; i++) {
-        NSDictionary *dict = @{@"image" : @"demo",
+        NSDictionary *dict = @{@"image" : [NSString stringWithFormat:@"demo%i", i % 4],
                                @"name" : @"Mac's Sick Cards #"};
         [_datas addObject:dict];
     }

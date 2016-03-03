@@ -84,7 +84,11 @@
                 placeholder = @"Email";
                 break;
             case 2:
-                infoText = [NSString stringWithFormat:@"%li", self.applicant.age];
+                if (self.applicant.age < 0) {
+                    infoText = @"";
+                } else {
+                    infoText = [NSString stringWithFormat:@"%li", self.applicant.age];
+                }
                 placeholder = @"Age";
                 break;
             case 3:
