@@ -1,6 +1,6 @@
 /*
  * Applicant Model.
- * @author - Mac Liu
+ * @author - Mac Liu & Austin Bullard
  */
 
 var mongoose = require('mongoose');
@@ -82,9 +82,38 @@ module.exports.getUserById = function(id, callback) {
 /*
  *	Function creates a new user from given user information
  */
-module.exports.createUser = function(newUser, callback) {
+module.exports.createUser = function(body) {
+	var name  = body.name;
+	var dob = body.dob;
+	var age = body.age;
+	var email = body.email;
+	var password = body.password;
+	var bio = body.bio;
+	var city = body.city;
+	var state = body.state;
+
+	// Create a new applicant
+	var newUser = new Applicant({
+		name : name,
+		email :email,
+		password : password,
+		dob : dob,
+		age : age,
+		bio : bio,
+		city : city,
+		state : state
+	});
+
+	//Hash the user's password and 
 	newUser.password = hash(newUser.password);
-	newUser.save(callback);
+	newUser.save(function(err, user) {
+		if(err) {
+			console.log("There was an error registering the user");
+		} else {
+			console.log("New user " + newUser.name + ", successfully registerd");
+			console.log("UserID: " + newUser.id);
+		}
+	});
 }
 
 /*
@@ -104,15 +133,13 @@ module.exports.removeUser = function(userId) {
 /*
  *	Function updates the user's profile based off info given;
  */
-module.exports.updateUser = function(userId, body) {
-	Applicant.update({'_id': userId}, body, function(err, success) {
+module.exports.updateUser = function(body) {
+	Applicant.update({'_id': body.id}, body, function(err, success) {
 		if(err) {
-			console.log("Error updating user informat");
+			console.log("Error updating user information");
 			throw err;
 		} else {
 			console.log("User's profile was updated successfully.");
-			var user = Applicant.find({'_id': userId});
-			console.log(user);
 		}
 	});
 }
@@ -120,16 +147,35 @@ module.exports.updateUser = function(userId, body) {
 /*
  *	Function adds a photo to the user's profile, it stores the link to the picture in their document
  */
-module.exports.addUserPhoto = function(image) {
+module.exports.addUserPhoto = function(image, userId) {
 	//Upload the photo to imgur
 	imgur.uploadBase64(image)
 	.then(function(json) {
 		console.log(json.data);
+
+		//Update the user's document with the generated imgur link
+		Applicant.update({'_id': userId}, { 'profPic': json.data.link });
 	})
 	.catch(function(err) {
 		console.log(err);
 	});
-
-	//Update the user's document with the given 
-	Applicant.update({'_id': userId}, { 'profPic': json.data.link });
 }
+
+/*
+ *	Function returns the image link from the user's db document
+ */
+ module.exports.getPhotoURL = function(userId) {
+ 		//TODO - Return URL of photo
+ 		var pictureLink = "";
+ 		Applicant.findOne({'_id': userId}, 'profPic', function(err, link) {
+ 			if(err) {
+ 				console.log("Error finding the user.");
+ 				throw err;
+ 			} else {
+ 				console.log(link.profPic);
+ 				pictureLink = link.profPic;
+ 			}
+ 		});
+
+ 		return pictureLink;
+ }
