@@ -7,6 +7,10 @@ var mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost/eHireMe");
 var db = mongoose.connection;
 
+//Require the imgur module for image hosting
+var imgur = require('imgur');
+imgur.setClientId('e99125efb5a7704');
+
 //Applicant Schema
 var ApplicantSchema = new mongoose.Schema({
 	name : {
@@ -35,7 +39,7 @@ var ApplicantSchema = new mongoose.Schema({
 		type : String
 	},
 	profPic : {
-		type : String
+	 	type : String
 	}
 
 });
@@ -83,4 +87,49 @@ module.exports.createUser = function(newUser, callback) {
 	newUser.save(callback);
 }
 
+/*
+ *	Function removes the user based off of the given user information
+ */
+module.exports.removeUser = function(userId) {
+	Applicant.remove({'_id': userId}, function(err, user) {
+		if(err) {
+			console.log("Error removing user");
+			throw err;
+		} else  {
+			console.log("User was successfully removed from the database.");
+		}
+	});
+}
 
+/*
+ *	Function updates the user's profile based off info given;
+ */
+module.exports.updateUser = function(userId, body) {
+	Applicant.update({'_id': userId}, body, function(err, success) {
+		if(err) {
+			console.log("Error updating user informat");
+			throw err;
+		} else {
+			console.log("User's profile was updated successfully.");
+			var user = Applicant.find({'_id': userId});
+			console.log(user);
+		}
+	});
+}
+
+/*
+ *	Function adds a photo to the user's profile, it stores the link to the picture in their document
+ */
+module.exports.addUserPhoto = function(image) {
+	//Upload the photo to imgur
+	imgur.uploadBase64(image)
+	.then(function(json) {
+		console.log(json.data);
+	})
+	.catch(function(err) {
+		console.log(err);
+	});
+
+	//Update the user's document with the given 
+	Applicant.update({'_id': userId}, { 'profPic': json.data.link });
+}

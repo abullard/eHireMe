@@ -78,11 +78,27 @@ router.post('/register', function(req, res, next) {
 		if (error) {
 			res.send(null);
 		} else {
-			console.log(user);
+			console.log("New user, " + user.name + ", was successfully added.");
 			res.send(user);			
 		}
 
 	});
+});
+
+//Extracts userId and body from request for update() query and new profile information
+router.post('/update', function(req, res) {
+	Applicant.updateUser(req.body.id, req.body);
+});
+
+//Extracts userId from request for remove() query
+router.delete('/delete', function(req, res) {
+	Applicant.removeUser(req.body.id);
+});
+
+//Extracts the base64 encoded photo from the request body 
+router.post('/addPhoto', function(req, res) {
+	//Need to send the base64 encoded photo to addUserPhoto()
+	Applicant.addUserPhoto(req.body.image);
 });
 
 module.exports = router;
