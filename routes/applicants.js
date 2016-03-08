@@ -28,7 +28,6 @@ router.get('/:id', function(req, res, next) {
  router.post('/login', function(req, res, next) {
  	var email = req.body.email;
  	var password = req.body.password;
- 	console.log(email + " " + password);
  	Applicant.findOne({email : email}, function(err, applicant) {
  		// if the password matches, send applicant in the response, otherwise
  		// send an empty object
@@ -37,12 +36,17 @@ router.get('/:id', function(req, res, next) {
  		} else if (applicant != null) {
  			Applicant.comparePassword(password, applicant.password, function(success) {
  				if (success) {
+ 					console.log(1);
  					res.send(applicant);
  				} else {
+ 					 					console.log(2);
+
 					res.send(null);
  				}
  			});
  		} else {
+ 			 					console.log(3);
+
  			res.send(null);
  		}
  	});
