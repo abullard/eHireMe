@@ -42,6 +42,7 @@ module.exports.getListofApplicants = function(job_id, callback) {
 	matches.*/
 	Matches.findOne({'job_id' : job_id}, 'user_id', function(err, match) {
 		//push the given match into the applicants array
+		//TODO - ADD ForEach() and push to applicants array
 		applicants.push(match);
 	});
 	callback();

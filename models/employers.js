@@ -1,9 +1,15 @@
 /*
  * Employer Model.
- * @author - Mac Liu
+ * @author - Mac Liu & Austin Bullard
  */
 
 var mongoose = require('mongoose');
+mongoose.connect("mongodb://localhost/eHireMe");
+var db = mongoose.connection;
+
+//Require the imgur module for image hosting
+var imgur = require('imgur');
+imgur.setClientId('e99125efb5a7704');
 
 //Employer Schema
 var EmployerSchema = new mongoose.Schema({
@@ -129,5 +135,3 @@ module.exports.addUserPhoto = function(image, userId) {
  			}
  		});
  }
-
-
