@@ -52,8 +52,16 @@ router.get('/:id', function(req, res, next) {
  *	POST - extracts content from the rquest body and create/register
  *         a new applicant if ALL feilds are valid.
  */
-router.post('/register', function(req, res) {
-	Applicant.createUser(req.body);
+router.post('/register', function(req, res, next) {
+	Applicant.createUser(req.body, function(err, user) {
+		if(err) {
+			console.log("There was an error registering the user");
+		} else {
+			console.log("New user " + user.name + ", successfully registerd");
+			console.log("UserID: " + user.id);
+			res.send(user);
+		}
+	});
 });
 
 //Extracts userId and body from request for update() query and new profile information
@@ -69,11 +77,15 @@ router.delete('/delete', function(req, res) {
 //Extracts the base64 encoded photo from the request body 
 router.post('/addPhoto', function(req, res) {
 	Applicant.addUserPhoto(req.body.image, req.body.id);
+	res.send("Picture uploaded successfully");
 });
 
 //Extracts the user's id from the request body to get the users picture
 router.post('/getPhoto', function(req, res) {
-	Applicant.getPhotoURL(req.body.id);
+	var URL = Applicant.getPhotoURL(req.body.id);
+	console.log(URL);
+	res.send(URL);
+	return URL;
 });
 
 module.exports = router;

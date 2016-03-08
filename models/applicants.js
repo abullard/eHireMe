@@ -82,7 +82,7 @@ module.exports.getUserById = function(id, callback) {
 /*
  *	Function creates a new user from given user information
  */
-module.exports.createUser = function(body) {
+module.exports.createUser = function(body, callback) {
 	var name  = body.name;
 	var dob = body.dob;
 	var age = body.age;
@@ -104,16 +104,9 @@ module.exports.createUser = function(body) {
 		state : state
 	});
 
-	//Hash the user's password and 
+	//Hash the user's password and save the document to the database
 	newUser.password = hash(newUser.password);
-	newUser.save(function(err, user) {
-		if(err) {
-			console.log("There was an error registering the user");
-		} else {
-			console.log("New user " + newUser.name + ", successfully registerd");
-			console.log("UserID: " + newUser.id);
-		}
-	});
+	newUser.save(callback);
 }
 
 /*
@@ -151,13 +144,14 @@ module.exports.addUserPhoto = function(image, userId) {
 	//Upload the photo to imgur
 	imgur.uploadBase64(image)
 	.then(function(json) {
-		console.log(json.data);
+		console.log(json.data.link);
 
 		//Update the user's document with the generated imgur link
 		Applicant.update({'_id': userId}, { 'profPic': json.data.link });
 	})
 	.catch(function(err) {
 		console.log(err);
+		throw err;
 	});
 }
 
@@ -165,17 +159,13 @@ module.exports.addUserPhoto = function(image, userId) {
  *	Function returns the image link from the user's db document
  */
  module.exports.getPhotoURL = function(userId) {
- 		//TODO - Return URL of photo
- 		var pictureLink = "";
- 		Applicant.findOne({'_id': userId}, 'profPic', function(err, link) {
+ 		Applicant.findOne({'_id': userId}, 'profPic', function(err, person) {
  			if(err) {
  				console.log("Error finding the user.");
  				throw err;
  			} else {
- 				console.log(link.profPic);
- 				pictureLink = link.profPic;
+ 				console.log(person.profPic);
+ 				return person.profPic;
  			}
  		});
-
- 		return pictureLink;
  }
