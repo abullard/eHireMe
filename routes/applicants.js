@@ -1,6 +1,6 @@
 /*
  * Endpoints/routes for applicants
- * @author - Mac Liu
+ * @author - Mac Liu & Austin Bullard
  */
 
 var express = require('express');
@@ -53,36 +53,39 @@ router.get('/:id', function(req, res, next) {
  *         a new applicant if ALL feilds are valid.
  */
 router.post('/register', function(req, res, next) {
-	var name  = req.body.name;
-	var dob = req.body.dob;
-	var age = req.body.age;
-	var email = req.body.email;
-	var password = req.body.password;
-	var bio = req.body.bio;
-	var city = req.body.city;
-	var state = req.body.state;
-
-	// Create a new applicant
-	var newUser = new Applicant({
-		name : name,
-		email :email,
-		password : password,
-		dob : dob,
-		age : age,
-		bio : bio,
-		city : city,
-		state : state
-	});
-
-	Applicant.createUser(newUser, function(error, user) {
-		if (error) {
-			res.send(null);
+	Applicant.createUser(req.body, function(err, user) {
+		if(err) {
+			console.log("There was an error registering the user");
 		} else {
-			console.log(user);
-			res.send(user);			
+			console.log("New user " + user.name + ", successfully registerd");
+			console.log("UserID: " + user.id);
+			res.send(user);
 		}
-
 	});
+});
+
+//Extracts userId and body from request for update() query and new profile information
+router.post('/update', function(req, res) {
+	Applicant.updateUser(req.body);
+});
+
+//Extracts userId from request for remove() query
+router.delete('/delete', function(req, res) {
+	Applicant.removeUser(req.body.id);
+});
+
+//Extracts the base64 encoded photo from the request body 
+router.post('/addPhoto', function(req, res) {
+	Applicant.addUserPhoto(req.body.image, req.body.id);
+	res.send("Picture uploaded successfully");
+});
+
+//Extracts the user's id from the request body to get the users picture
+router.post('/getPhoto', function(req, res) {
+	var URL = Applicant.getPhotoURL(req.body.id);
+	console.log(URL);
+	res.send(URL);
+	return URL;
 });
 
 module.exports = router;
