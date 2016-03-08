@@ -11,5 +11,7 @@
 @interface EHMConstants : NSObject
 
 #define baseURL @"http://ehireme.herokuapp.com"
+#define user_id @"EHMUser_ID"
+#define user_email @"EHMUser_Email"
 
 @end

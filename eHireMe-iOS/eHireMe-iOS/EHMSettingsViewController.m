@@ -137,6 +137,7 @@
         [defaults synchronize];
         [self performSegueWithIdentifier:@"Logout" sender:nil];
     }
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - Helper Methods

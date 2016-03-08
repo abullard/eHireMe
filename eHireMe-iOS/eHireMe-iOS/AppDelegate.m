@@ -8,6 +8,10 @@
 
 #import "AppDelegate.h"
 
+#import "ViewController.h"
+#import "EHMSwipeViewController.h"
+#import "EHMConstants.h"
+
 @interface AppDelegate ()
 
 @end
@@ -21,6 +25,19 @@
     NSMutableDictionary *titleBarAttributes = [NSMutableDictionary dictionaryWithDictionary: [[UINavigationBar appearance] titleTextAttributes]];
     [titleBarAttributes setValue:[UIFont fontWithName:@"Typewriter_Condensed" size:28] forKey:NSFontAttributeName];
     [[UINavigationBar appearance] setTitleTextAttributes:titleBarAttributes];
+
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    
+    // Check if user is already logged in
+    if(![[[NSUserDefaults standardUserDefaults] valueForKey:user_id] isEqualToString:@""])
+    {
+        //User is already logged in
+        EHMSwipeViewController *swipeViewController = [storyBoard instantiateViewControllerWithIdentifier:@"SwipeNavController"];
+        self.window.rootViewController = swipeViewController;
+    } else {
+        ViewController *loginViewController= [storyBoard instantiateViewControllerWithIdentifier:@"ViewController"];
+        self.window.rootViewController = loginViewController;
+    }
 
     return YES;
 }

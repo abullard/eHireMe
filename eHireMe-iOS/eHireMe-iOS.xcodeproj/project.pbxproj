@@ -19,6 +19,8 @@
 		29054D2F1C796C40000380B1 /* YSLDraggableCardContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 29054D2D1C796C40000380B1 /* YSLDraggableCardContainer.m */; };
 		29054D321C796D1D000380B1 /* CardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 29054D311C796D1D000380B1 /* CardView.m */; };
 		29054D351C7BE2A0000380B1 /* EHMJobsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29054D341C7BE2A0000380B1 /* EHMJobsListViewController.m */; };
+		2912BC621C8F285D00B3EC8C /* EHMMatchesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2912BC611C8F285D00B3EC8C /* EHMMatchesViewController.m */; };
+		2912BC651C8F2DA700B3EC8C /* EHMMatchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2912BC641C8F2DA700B3EC8C /* EHMMatchTableViewCell.m */; };
 		293184F31C7CB589004E3F49 /* EHMConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 293184F21C7CB589004E3F49 /* EHMConstants.m */; };
 		29A36EAC1C7D3EFA00765030 /* EHMSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29A36EAB1C7D3EFA00765030 /* EHMSignUpViewController.m */; };
 		29A36EAF1C85195000765030 /* EHMSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29A36EAE1C85195000765030 /* EHMSettingsViewController.m */; };
@@ -51,6 +53,10 @@
 		29054D311C796D1D000380B1 /* CardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CardView.m; path = ../CardView.m; sourceTree = "<group>"; };
 		29054D331C7BE2A0000380B1 /* EHMJobsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHMJobsListViewController.h; sourceTree = "<group>"; };
 		29054D341C7BE2A0000380B1 /* EHMJobsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHMJobsListViewController.m; sourceTree = "<group>"; };
+		2912BC601C8F285D00B3EC8C /* EHMMatchesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHMMatchesViewController.h; sourceTree = "<group>"; };
+		2912BC611C8F285D00B3EC8C /* EHMMatchesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHMMatchesViewController.m; sourceTree = "<group>"; };
+		2912BC631C8F2DA700B3EC8C /* EHMMatchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHMMatchTableViewCell.h; sourceTree = "<group>"; };
+		2912BC641C8F2DA700B3EC8C /* EHMMatchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHMMatchTableViewCell.m; sourceTree = "<group>"; };
 		293184F11C7CB589004E3F49 /* EHMConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHMConstants.h; sourceTree = "<group>"; };
 		293184F21C7CB589004E3F49 /* EHMConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHMConstants.m; sourceTree = "<group>"; };
 		29A36EAA1C7D3EFA00765030 /* EHMSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHMSignUpViewController.h; sourceTree = "<group>"; };
@@ -150,6 +156,8 @@
 				29A36EAB1C7D3EFA00765030 /* EHMSignUpViewController.m */,
 				29A36EAD1C85195000765030 /* EHMSettingsViewController.h */,
 				29A36EAE1C85195000765030 /* EHMSettingsViewController.m */,
+				2912BC601C8F285D00B3EC8C /* EHMMatchesViewController.h */,
+				2912BC611C8F285D00B3EC8C /* EHMMatchesViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -161,6 +169,8 @@
 				29A36EB11C851B1B00765030 /* EHMProfilePicTableViewCell.m */,
 				29A36EB31C856E3A00765030 /* EHMInfoTableViewCell.h */,
 				29A36EB41C856E3A00765030 /* EHMInfoTableViewCell.m */,
+				2912BC631C8F2DA700B3EC8C /* EHMMatchTableViewCell.h */,
+				2912BC641C8F2DA700B3EC8C /* EHMMatchTableViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -317,9 +327,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2912BC651C8F2DA700B3EC8C /* EHMMatchTableViewCell.m in Sources */,
 				29054D0E1C77F4E0000380B1 /* ViewController.m in Sources */,
 				29054D0B1C77F4E0000380B1 /* AppDelegate.m in Sources */,
 				29A36EB51C856E3A00765030 /* EHMInfoTableViewCell.m in Sources */,
+				2912BC621C8F285D00B3EC8C /* EHMMatchesViewController.m in Sources */,
 				29054D081C77F4E0000380B1 /* main.m in Sources */,
 				293184F31C7CB589004E3F49 /* EHMConstants.m in Sources */,
 				29054D2F1C796C40000380B1 /* YSLDraggableCardContainer.m in Sources */,
