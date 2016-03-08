@@ -2,7 +2,6 @@
  * Jobs Model.
  * @author - Mac Liu
  */
-
 var mongoose = require('mongoose');
 
 //Job Schema

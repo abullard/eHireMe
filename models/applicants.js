@@ -4,7 +4,6 @@
  */
 
 var mongoose = require('mongoose');
-//mongoose.connect("mongodb://localhost/eHireMe");
 var db = mongoose.connection;
 
 //Require the imgur module for image hosting
@@ -83,30 +82,42 @@ module.exports.getUserById = function(id, callback) {
  *	Function creates a new user from given user information
  */
 module.exports.createUser = function(body, callback) {
-	var name  = body.name;
-	var dob = body.dob;
-	var age = body.age;
-	var email = body.email;
-	var password = body.password;
-	var bio = body.bio;
-	var city = body.city;
-	var state = body.state;
 
-	// Create a new applicant
-	var newUser = new Applicant({
-		name : name,
-		email :email,
-		password : password,
-		dob : dob,
-		age : age,
-		bio : bio,
-		city : city,
-		state : state
-	});
+	if(body.name == null || body.email == null || body.password == null || body.confirmPass == null) {
+		console.log("Please make sure required fields are populated.");
+		console.log("Required: Name, email, password, confirm Password.");
+		callback(true, null);
+	} else {
+		var name  = body.name;
+		var dob = body.dob;
+		var age = body.age;
+		var email = body.email;
+		var password = body.password;
+		var confirmPass = body.confirmPass;
+		var bio = body.bio;
+		var city = body.city;
+		var state = body.state;
 
-	//Hash the user's password and save the document to the database
-	newUser.password = hash(newUser.password);
-	newUser.save(callback);
+		if(password != confirmPass) {
+			console.log("Passwords do not match.");
+			callback(true, null);
+		} else {
+			// Create a new applicant
+			var newUser = new Applicant({
+				name : name,
+				email :email,
+				password : password,
+				dob : dob,
+				age : age,
+				bio : bio,
+				city : city,
+				state : state
+			});
+			//Hash the user's password and save the document to the database
+			newUser.password = hash(newUser.password);
+			newUser.save(callback);
+		}
+	}
 }
 
 /*

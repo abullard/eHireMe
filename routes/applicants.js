@@ -2,7 +2,6 @@
  * Endpoints/routes for applicants
  * @author - Mac Liu & Austin Bullard
  */
-
 var express = require('express');
 var router = express.Router();
 
@@ -32,6 +31,7 @@ var hash = function (str) {
 	}
 	return result;
 };
+
 router.get('/email/:email/:pass', function(req, res, next) {
 	Applicant.findOne({email: req.params.email}, function(err, applicant) {
 		if (err){
@@ -46,7 +46,6 @@ router.get('/email/:email/:pass', function(req, res, next) {
 		}
 	});
 });
-
 
 /*
  * POST - Login user, if successful send user object back in the response
@@ -82,6 +81,7 @@ router.post('/register', function(req, res, next) {
 	Applicant.createUser(req.body, function(err, user) {
 		if(err) {
 			console.log("There was an error registering the user");
+			res.send("User not registered");
 		} else {
 			console.log("New user " + user.name + ", successfully registerd");
 			console.log("UserID: " + user.id);

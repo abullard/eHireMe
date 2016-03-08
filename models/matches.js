@@ -7,8 +7,6 @@
 //Require applicants and jobs for their schemas
  var applicant = require("/applicants");
  var job = require("/jobs");
-
- //mongoose.connect("mongodb://localhost/eHireMe");
  var db = mongoose.connection;
 
 var MatchesSchema = new Mongoose.Schema({
