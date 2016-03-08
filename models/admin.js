@@ -4,7 +4,7 @@
  */
 
 var mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/eHireMe");
+//mongoose.connect("mongodb://localhost/eHireMe");
 var db = mongoose.connection;
 
 //Admin Schema

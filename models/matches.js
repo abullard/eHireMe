@@ -8,7 +8,7 @@
  var applicant = require("/applicants");
  var job = require("/jobs");
 
- mongoose.connect("mongodb://localhost/eHireMe");
+ //mongoose.connect("mongodb://localhost/eHireMe");
  var db = mongoose.connection;
 
 var MatchesSchema = new Mongoose.Schema({
@@ -51,6 +51,6 @@ module.exports.getListofApplicants = function(job_id, callback) {
 /*
  *	Function removes the entry in the current database table
  */
-module.exports.deleteEntry = function(user_id, ) {
-
-}
+//module.exports.deleteEntry = function(user_id, ) {
+//
+//}

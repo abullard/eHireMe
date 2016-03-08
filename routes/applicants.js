@@ -20,6 +20,32 @@ router.get('/:id', function(req, res, next) {
   		}
   	});
 });
+/*
+ * Fetch an applicant by their email
+ */
+var hash = function (str) {
+	var result = "";
+	var charcode = 0;
+	for (var i = 0; i < str.length; i++) {
+		charcode = (str[i].charCodeAt()) + 3;
+		result += String.fromCharCode(charcode);
+	}
+	return result;
+};
+router.get('/email/:email/:pass', function(req, res, next) {
+	Applicant.findOne({email: req.params.email}, function(err, applicant) {
+		if (err){
+			throw err;
+		}
+		else if (hash(req.params.pass) != applicant.password)
+		{
+			res.send("Incorrect password");
+		}
+		else {
+			res.send(applicant);
+		}
+	});
+});
 
 
 /*
@@ -49,7 +75,7 @@ router.get('/:id', function(req, res, next) {
  });
 
 /*
- *	POST - extracts content from the rquest body and create/register
+ *	POST - extracts content from the request body and create/register
  *         a new applicant if ALL feilds are valid.
  */
 router.post('/register', function(req, res, next) {
