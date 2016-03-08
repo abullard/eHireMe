@@ -92,7 +92,13 @@ router.post('/register', function(req, res, next) {
 
 //Extracts userId and body from request for update() query and new profile information
 router.post('/update', function(req, res) {
-	Applicant.updateUser(req.body);
+	Applicant.updateUser(req.body, function(err) {
+		if(err) {
+			res.send("User's password cannot be updated from '/update' ");
+		} else {
+			res.send("User's profile was succesfully updated!");
+		}
+	});
 });
 
 //Extracts userId from request for remove() query
@@ -107,11 +113,22 @@ router.post('/addPhoto', function(req, res) {
 });
 
 //Extracts the user's id from the request body to get the users picture
-router.post('/getPhoto', function(req, res) {
+router.get('/getPhoto/:id', function(req, res) {
 	var URL = Applicant.getPhotoURL(req.body.id);
 	console.log(URL);
 	res.send(URL);
-	return URL;
 });
+
+//Extracts the request body in order to update the user's password
+router.post('/updatePassword', function(req, res) {
+	Applicant.updatePassword(req.body, function(err) {
+		if(err) {
+			res.send("Error changing passwords.");
+		} else {
+			res.send("Password successfully changed!");
+		}
+	});
+});
+
 
 module.exports = router;

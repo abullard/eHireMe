@@ -121,6 +121,26 @@ module.exports.createUser = function(body, callback) {
 }
 
 /*
+ *	Function updates the user's password in their mongo document
+ */
+module.exports.updatePassword = function(body, callback) {
+	var confirmPass = hash(body.confirmPass);
+	var password = hash(body.password);
+
+	if(password != confirmPass) {
+		console.log("Passwords do not match.");
+	} else {
+		Applicant.update({'_id': body.id}, {'password': password}, function(err, success) {
+			if(err) {
+				callback(true);
+			} else {
+				callback(false);
+			}
+		}); 
+	}
+}
+
+/*
  *	Function removes the user based off of the given user information
  */
 module.exports.removeUser = function(userId) {
@@ -137,15 +157,20 @@ module.exports.removeUser = function(userId) {
 /*
  *	Function updates the user's profile based off info given;
  */
-module.exports.updateUser = function(body) {
-	Applicant.update({'_id': body.id}, body, function(err, success) {
-		if(err) {
-			console.log("Error updating user information");
-			throw err;
-		} else {
-			console.log("User's profile was updated successfully.");
-		}
-	});
+module.exports.updateUser = function(body, callback) {
+	if(body.password != null) {
+		callback(true);
+	} else {
+		Applicant.update({'_id': body.id}, body, function(err, success) {
+			if(err) {
+				console.log("Error updating user information");
+				throw err;
+			} else {
+				console.log("User's profile was updated successfully.");
+				callback(false);
+			}
+		});
+	}
 }
 
 /*
