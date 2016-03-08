@@ -28,7 +28,7 @@ router.get('/:id', function(req, res, next) {
  router.post('/login', function(req, res, next) {
  	var email = req.body.email;
  	var password = req.body.password;
-
+ 	console.log(email + " " + password);
  	Applicant.findOne({email : email}, function(err, applicant) {
  		// if the password matches, send applicant in the response, otherwise
  		// send an empty object
