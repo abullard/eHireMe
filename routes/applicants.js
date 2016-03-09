@@ -32,21 +32,6 @@ var hash = function (str) {
 	return result;
 };
 
-router.get('/email/:email/:pass', function(req, res, next) {
-	Applicant.findOne({email: req.params.email}, function(err, applicant) {
-		if (err){
-			throw err;
-		}
-		else if (hash(req.params.pass) != applicant.password)
-		{
-			res.send("Incorrect password");
-		}
-		else {
-			res.send(applicant);
-		}
-	});
-});
-
 /*
  * POST - Login user, if successful send user object back in the response
  */
@@ -129,6 +114,5 @@ router.post('/updatePassword', function(req, res) {
 		}
 	});
 });
-
 
 module.exports = router;
