@@ -93,8 +93,8 @@ router.delete('/delete', function(req, res) {
 
 //Extracts the base64 encoded photo from the request body 
 router.post('/addPhoto', function(req, res) {
-	Applicant.addUserPhoto(req.body.image, req.body.id);
-	res.send("Picture uploaded successfully");
+	Applicant.addUserPhoto(req.body.image, req.body._id);
+	res.send(JSON.parse('{"Picture uploaded successfully":"Indeed"}'));
 });
 
 //Extracts the user's id from the request body to get the users picture
