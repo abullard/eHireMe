@@ -36,7 +36,7 @@ var hash = function (str) {
  * POST - Login user, if successful send user object back in the response
  */
  router.post('/login', function(req, res, next) {
- 	var email = req.body.email;
+ 	var email = req.body.email.toLowerCase().trim();
  	var password = req.body.password;
 
  	Applicant.findOne({email : email}, function(err, applicant) {
@@ -99,9 +99,18 @@ router.post('/addPhoto', function(req, res) {
 
 //Extracts the user's id from the request body to get the users picture
 router.get('/getPhoto/:id', function(req, res) {
-	var URL = Applicant.getPhotoURL(req.body.id);
-	console.log(URL);
-	res.send(URL);
+	// var uuu = Applicant.getPhotoURL(req.params.id);
+	// console.log(uuu);
+	Applicant.findOne({'_id': req.params.id}, 'profPic', function(err, person) {
+		if(err) {
+			console.log("Error finding the user.");
+			throw err;
+		} else {
+			// console.log(person.profPic);
+			res.send(person.profPic);
+		}
+	});
+	// res.send(uuu);
 });
 
 //Extracts the request body in order to update the user's password

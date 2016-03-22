@@ -91,7 +91,7 @@ module.exports.createUser = function(body, callback) {
 		var name  = body.name;
 		var dob = body.dob;
 		var age = body.age;
-		var email = body.email;
+		var email = body.email.toLowerCase().trim();
 		var password = body.password;
 		var confirmPass = body.confirmPass;
 		var bio = body.bio;
@@ -178,12 +178,21 @@ module.exports.updateUser = function(body, callback) {
  */
 module.exports.addUserPhoto = function(image, userId) {
 	//Upload the photo to imgur
-	imgur.uploadBase64(image)
-	.then(function(json) {
+	imgur.uploadBase64(image).then(function(json) {
 		console.log(json.data.link);
 
 		//Update the user's document with the generated imgur link
-		Applicant.update({'_id': userId}, { 'profPic': json.data.link });
+		// Applicant.update({_id: userId}, {profPic: json.data.link });
+
+		Applicant.findOne({'_id': userId}, function(err, person) {
+			if(err) {
+				console.log("Error finding the user.");
+				throw err;
+			} else {
+				person.profPic = json.data.link;
+				person.save();
+			}
+		});
 	})
 	.catch(function(err) {
 		console.log(err);
@@ -200,7 +209,7 @@ module.exports.addUserPhoto = function(image, userId) {
  				console.log("Error finding the user.");
  				throw err;
  			} else {
- 				console.log(person.profPic);
+ 				// console.log(person.profPic);
  				return person.profPic;
  			}
  		});
