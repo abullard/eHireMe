@@ -130,4 +130,15 @@ router.post('/removeMatch', function(req, res) {
 	});
 });
 
+//Extracts the id parameter from the request to find a list of applicants to a specific job
+router.get('/getApplicants/:id', function(req, res) {
+	Matches.getListofApplicants(req.params.id, function(err, applicants) {
+		if(err) {
+			res.send(JSON.parse('{"Applicants found":"true"}'));
+		} else {
+			res.send(applicants);
+		}
+	});
+});
+
 module.exports = router;

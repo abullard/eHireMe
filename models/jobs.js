@@ -53,6 +53,28 @@ module.exports.createJob = function(body, callback) {
 }
 
 /*
+ *	Function finds all jobs created by the employer user
+ */
+module.exports.getListofJobs = function(employerId, callback) {
+	//array of jobs created by the given employer(ID)
+	var jobs = [];
+
+	//Find all documents with the given ID
+	Employer.fineOne({'_id': employerId}, function(err, list) {
+		if(err) {
+			console.log("Error finding list of jobs.");
+			callback(true, null);
+		} else {
+			list.forEach(function(job) {
+				jobs.push(job);
+			});
+			console.log("List of jobs found successfully.");
+			callback(false, jobs);
+		}
+	});
+}
+
+/*
  *	Function removes an existing job
  */
 module.exports.deleteJob = function(jobId, callback) {
