@@ -2,19 +2,20 @@
  * Matches Model.
  * @author - Austin Bullard
  */
- var mongoose = require("mongoose");
 
-//Require applicants and jobs for their schemas
- var applicant = require("/applicants");
- var job = require("/jobs");
+ //initlization
+ var mongoose = require("mongoose");
+ var applicant = require('./applicants.js');
+ var employer = require('./employers.js');
+ var job = require('./jobs.js');
  var db = mongoose.connection;
 
-var MatchesSchema = new Mongoose.Schema({
-	user_id: {
+var MatchesSchema = new mongoose.Schema({
+	user_id : {
 		type: String
 	},
-	job_id: {
-		type: String
+	job_id : {
+		type : String
 	}
 });
 
@@ -23,9 +24,17 @@ var Matches = module.exports = mongoose.model('matches', MatchesSchema);
 
 /*
  *	Function creates a new matches database entry when an applicant user applies to, or
- *  in other words, "swipes right" on a given job, in the current table
+ *  in other words, "swipes right" on a given job
  */
-module.exports.apply = function(newMatch, callback) {
+module.exports.apply = function(body, callback) {
+	var user = body.user_id;
+	var job = body.job_id;
+
+	var newMatch = new Matches({
+		user_id : user,
+		job_id : job
+	});
+
 	newMatch.save(callback);
 }
 
@@ -34,21 +43,36 @@ module.exports.apply = function(newMatch, callback) {
  *	the current table
  */
 module.exports.getListofApplicants = function(job_id, callback) {
+	//array of applicant user's that have applied for a given job
 	var applicants = [];
 
-	/*Query for the given job_id in the current table, and pull the user_id from the any 
-	matches.*/
-	Matches.findOne({'job_id' : job_id}, 'user_id', function(err, match) {
-		//push the given match into the applicants array
-		//TODO - ADD ForEach() and push to applicants array
-		applicants.push(match);
+	//find a list of the applicant's from the given job_id
+	Matches.findOne({"job_id": job_id}, function(err, list) {
+		if(err) {
+			console.log("There was a problem finding the list of applicants");
+			callback(true, null);
+		} else {
+			//Iterate through each applicant and push them to the array
+			list.forEach(function(applicant) {
+				applicants.push(applicant);
+			});
+			console.log("List of applicants found successfully.");
+			callback(false, applicants);
+		}
 	});
-	callback();
 }
 
 /*
- *	Function removes the entry in the current database table
+ *	Function removes an entry from the Matches Table
  */
-//module.exports.deleteEntry = function(user_id, ) {
-//
-//}
+ module.exports.removeMatch = function(matchId, callback) {
+ 	Matches.remove({'_id' : matchId}, function(err) {
+ 		if(err) {
+ 			console.log("There was an error removing the match.");
+ 			callback(true);
+ 		} else {
+ 			console.log("Match removed successfully.");
+ 			callback(false);
+ 		}
+ 	});
+ } 

@@ -1,6 +1,6 @@
 /*
  * Employer Model.
- * @author - Mac Liu & Austin Bullard
+ * @author - Austin Bullard
  */
 
 var mongoose = require('mongoose');
@@ -19,10 +19,13 @@ var EmployerSchema = new mongoose.Schema({
 	password : {
 		type : String
 	},
-	email : {
+	business_email : {
 		type : String
 	},
 	description : {
+		type : String
+	},
+	profPic : {
 		type : String
 	}
 });
@@ -49,9 +52,9 @@ var hash = function (str) {
 module.exports.comparePassword = function(candidatePassword, hashp, callback) {
 	candidatePassword = hash(candidatePassword);
 	if (candidatePassword == hashp) {
-		callback(null, true);
+		callback(true);
 	} else {
-		callback(null, false);
+		callback(false);
 	}
 }
 
@@ -59,27 +62,35 @@ module.exports.comparePassword = function(candidatePassword, hashp, callback) {
  *	Function creates a new user from given employer information
  */
 module.exports.createUser = function(body, callback) {
-	var company  = body.company;
-	var email = body.business_email;
-	var password = body.password;
-	var description = body.description;
+	if(body.company == null || body.business_email == null || body.password == null || body.confirmPass == null) {
+		console.log("Make sure all required fields are filled out.");
+		callback(true, null);
+	} else {
+		var company  = body.company;
+		var email = body.business_email;
+		var password = hash(body.password);
+		var confirmPass = hash(body.confirmPass);
+		var description = body.description;
 
-	var newEmployer = new Employer({
-		company : company,
-		business_email : email,
-		password : password,
-		description : description
-	});
-
-	//hash password and save document to database
-	newEmployer.password = hash(newEmployer.password);
-	newEmployer.save(callback);
+		if(password != confirmPass) {
+			callback(true, null);
+		} else {
+			var newEmployer = new Employer({
+				company : company,
+				business_email : email,
+				password : password,
+				description : description
+			});
+			newEmployer.save(callback);
+		}
+	}
 }
+
 /*
  *	Function removes the user based off of the given user information
  */
 module.exports.removeUser = function(userId) {
-	Employer.remove({'_id': userId}, function(err, user) {
+	Employer.remove({'_id': userId}, function(err) {
 		if(err) {
 			console.log("Error removing user");
 			throw err;
@@ -92,28 +103,57 @@ module.exports.removeUser = function(userId) {
 /*
  *	Function updates the user's profile based off info given;
  */
-module.exports.updateUser = function(body) {
-	Employer.update({'_id': body.id}, body, function(err, success) {
-		if(err) {
-			console.log("Error updating user information");
-			throw err;
-		} else {
-			console.log("User's profile was updated successfully.");
-		}
-	});
+module.exports.updateUser = function(body, callback) {
+	if(body.password != null) {
+		callback(true);
+	} else {
+		Employer.update({'_id': body._id}, body, function(err, success) {
+			if(err) {
+				callback(true);
+			} else {
+				callback(false);
+			}
+		});
+	}
+}
+
+/*
+ *	Function updates the user's password in their mongo document
+ */
+module.exports.updatePassword = function(body, callback) {
+	var confirmPass = hash(body.confirmPass);
+	var password = hash(body.password);
+
+	if(password != confirmPass) {
+		callback(true);
+	} else {
+		Employer.findOne({'_id': body._id}, function(err, user) {
+			if(err) {
+				callback(true);
+			} else {
+				user.password = password;
+				user.save(callback(false));
+			}
+		}); 
+	}
 }
 
 /*
  *	Function adds a photo to the user's profile, it stores the link to the picture in their document
  */
-module.exports.addUserPhoto = function(image, userId) {
+module.exports.addUserPhoto = function(image, userId, callback) {
 	//Upload the photo to imgur
 	imgur.uploadBase64(image)
 	.then(function(json) {
-		console.log(json.data.link);
-
 		//Update the user's document with the generated imgur link
-		Employer.update({'_id': userId}, { 'profPic': json.data.link });
+		Employer.findOne({'_id': userId}, function(err, user) {
+			if(err) {
+				callback(true);
+			} else {
+				user.profPic = json.data.link;
+				user.save(callback(false));
+			}
+		});
 	})
 	.catch(function(err) {
 		console.log(err);
@@ -124,13 +164,12 @@ module.exports.addUserPhoto = function(image, userId) {
 /*
  *	Function returns the image link from the user's db document
  */
- module.exports.getPhotoURL = function(userId) {
+ module.exports.getPhotoURL = function(userId, callback) {
  		Employer.findOne({'_id': userId}, 'profPic', function(err, person) {
  			if(err) {
- 				console.log("Error finding the user.");
- 				throw err;
+ 				callback(true, null);
  			} else {
- 				return person.profPic;
+ 				callback(false, person.profPic);
  			}
  		});
  }

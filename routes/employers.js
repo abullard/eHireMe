@@ -1,20 +1,21 @@
 /*
- * Endpoints/routes for employers
- * @author - Mac Liu
+ * Endpoints/routes for employer
+ * @author - Austin Bullard
  */
-
 var express = require('express');
 var router = express.Router();
 
 var Employer = require('../models/employers');
+var Matches = require('../models/matches');
+var Job = require('../models/jobs')
 
 /* 
- * GET employers by their company name. 
+ * GET employer by their id. 
  */
-router.get('/:company', function(req, res, next) {
-  	Employer.findOne({company : req.params.name}, function(err,employer) {
+router.get('/:id', function(req, res, next) {
+  	Employer.findById(req.params.id, function(err, employer) {
   		if (err) {
-  			throw err;
+  			res.send('{"user found":"false"}');
   		} else {
   			res.send(employer);
   		}
@@ -22,36 +23,39 @@ router.get('/:company', function(req, res, next) {
 });
 
 /*
- * POST - Login employer, if successful send user object back in the response
+ * POST - Login user, if successful send user object back in the response
  */
  router.post('/login', function(req, res, next) {
- 	var email = req.body.email;
+ 	var businessEmail = req.body.business_email;
  	var password = req.body.password;
 
- 	Employer.findOne({business_email : email}, function(err, employer) {
- 		// if the password matches, send employer in the response, otherwise
- 		// send an empty object
- 		if (err) {
- 			throw err;
- 		} else if (employer.password == password) {
- 			res.send(employer);
+ 	Employer.findOne({'business_email': businessEmail}, function(err, employer) {
+ 		// if the password matches, send employer in the response
+ 		if(err) {
+ 		 	res.send(JSON.parse('{"login successful":"false"}'));
+ 		} else if (employer != null) {
+ 			Employer.comparePassword(password, employer.password, function(success) {
+ 				if(success) {
+ 					res.send(employer);
+ 				} else {
+					res.send(JSON.parse('{"login successful":"false"}'));
+ 				}
+ 			});
  		} else {
- 			res.send({});
+ 			res.send(JSON.parse('{"login successful":"false"}'));
  		}
  	});
  });
 
 /*
- *	POST - creates & register
+ *	POST - extracts content from the request body and create/register
  *         a new employer if ALL feilds are valid.
  */
 router.post('/register', function(req, res, next) {
-	Employer.createUser(req.body, function(error, user) {
-		if(error) {
-			console.log("Error registering Employer User");
+	Employer.createUser(req.body, function(err, user) {
+		if(err) {
+			res.send(JSON.parse('{"User registered":"false"}'));
 		} else {
-			console.log("New user " + user.name + ", successfully registerd");
-			console.log("UserID: " + user.id);
 			res.send(user);
 		}
 	});
@@ -59,26 +63,71 @@ router.post('/register', function(req, res, next) {
 
 //Extracts userId and body from request for update() query and new profile information
 router.post('/update', function(req, res) {
-	Employer.updateUser(req.body);
+	Employer.updateUser(req.body, function(err) {
+		if(err) {
+			console.log("User's password cannot be updated from '/update'");
+			res.send(JSON.parse('{"Profile Updated":"false"}'));
+		} else {
+			res.send(JSON.parse('{"Profile Updated":"true"}'));
+		}
+	});
 });
 
 //Extracts userId from request for remove() query
 router.delete('/delete', function(req, res) {
-	Empolyer.removeUser(req.body.id);
+	Employer.removeUser(req.body._id, function(err) {
+		if(err) {
+			res.send(JSON.parse('{"User removed":"false"}'));
+		} else {
+			res.send(JSON.parse('{"User removed":"true"}'));
+
+		}
+	});
 });
 
 //Extracts the base64 encoded photo from the request body 
 router.post('/addPhoto', function(req, res) {
-	Employer.addUserPhoto(req.body.image, req.body.id);
-	res.send("Picture uploaded successfully");
+	Employer.addUserPhoto(req.body.image, req.body._id, function(err) {
+		if(err) {
+			res.send(JSON.parse('{"Picture uploaded successfully":"false"}'));
+
+		} else {
+			res.send(JSON.parse('{"Picture uploaded successfully":"true"}'));
+		}
+	});
 });
 
 //Extracts the user's id from the request body to get the users picture
-router.post('/getPhoto', function(req, res) {
-	var URL = Employer.getPhotoURL(req.body.id);
-	console.log(URL);
-	res.send(URL);
-	return URL;
+router.get('/getPhoto/:id', function(req, res) {
+	Employer.getPhotoURL(req.params.id, function(err, url) {
+		if(err) {
+			res.send(JSON.parse('{"Link Found":"false"}'));
+		} else  {
+			res.send(url);
+		}
+	});
+});
+
+//Extracts the request body in order to update the user's password
+router.post('/updatePassword', function(req, res) {
+	Employer.updatePassword(req.body, function(err) {
+		if(err) {
+			res.send(JSON.parse('{"password changed":"false"}'));
+		} else {
+			res.send(JSON.parse('{"password changed":"true"}'));
+		}
+	});
+});
+
+//Extracts request body to remove a match between user and job
+router.post('/removeMatch', function(req, res) {
+	Matches.removeMatch(req.body.matchId, function(err) {
+		if(err) {
+			res.send(JSON.parse('{"Match removed" : "false"}'));
+		} else {
+			res.send(JSON.parse('{"Match removed" : "true"}'));
+		}
+	});
 });
 
 module.exports = router;
