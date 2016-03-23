@@ -67,7 +67,7 @@ module.exports.createUser = function(body, callback) {
 		callback(true, null);
 	} else {
 		var company  = body.company;
-		var email = body.business_email;
+		var email = body.business_email.toLowerCase().trim();
 		var password = hash(body.password);
 		var confirmPass = hash(body.confirmPass);
 		var description = body.description;
