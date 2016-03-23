@@ -1,6 +1,6 @@
 /*
  * Applicant Model.
- * @author - Mac Liu & Austin Bullard
+ * @author - Austin Bullard
  */
 
 var mongoose = require('mongoose');
@@ -72,17 +72,9 @@ module.exports.comparePassword = function(candidatePassword, hashp, callback) {
 }
 
 /*
- *	Function returns the user from the given ID
- */
-module.exports.getUserById = function(id, callback) {
-	Applicant.findById(id, callback);
-}
-
-/*
  *	Function creates a new user from given user information
  */
 module.exports.createUser = function(body, callback) {
-
 	if(body.name == null || body.email == null || body.password == null || body.confirmPass == null) {
 		console.log("Please make sure required fields are populated.");
 		console.log("Required: Name, email, password, confirm Password.");
@@ -92,8 +84,8 @@ module.exports.createUser = function(body, callback) {
 		var dob = body.dob;
 		var age = body.age;
 		var email = body.email.toLowerCase().trim();
-		var password = body.password;
-		var confirmPass = body.confirmPass;
+		var password = hash(body.password);
+		var confirmPass = hash(body.confirmPass);
 		var bio = body.bio;
 		var city = body.city;
 		var state = body.state;
@@ -113,8 +105,6 @@ module.exports.createUser = function(body, callback) {
 				city : city,
 				state : state
 			});
-			//Hash the user's password and save the document to the database
-			newUser.password = hash(newUser.password);
 			newUser.save(callback);
 		}
 	}
@@ -128,13 +118,14 @@ module.exports.updatePassword = function(body, callback) {
 	var password = hash(body.password);
 
 	if(password != confirmPass) {
-		console.log("Passwords do not match.");
+		callback(true);
 	} else {
-		Applicant.update({'_id': body.id}, {'password': password}, function(err, success) {
+		Applicant.findOne({'_id': body._id}, function(err, user) {
 			if(err) {
 				callback(true);
 			} else {
-				callback(false);
+				user.password = password;
+				user.save(callback(false));
 			}
 		}); 
 	}
@@ -143,13 +134,13 @@ module.exports.updatePassword = function(body, callback) {
 /*
  *	Function removes the user based off of the given user information
  */
-module.exports.removeUser = function(userId) {
-	Applicant.remove({'_id': userId}, function(err, user) {
+module.exports.removeUser = function(userId, callback) {
+	Applicant.findOne({'_id': userId}, function(err, user) {
 		if(err) {
-			console.log("Error removing user");
-			throw err;
+			callback(true);
 		} else  {
-			console.log("User was successfully removed from the database.");
+			user.remove();
+			callback(false);
 		}
 	});
 }
@@ -161,12 +152,10 @@ module.exports.updateUser = function(body, callback) {
 	if(body.password != null) {
 		callback(true);
 	} else {
-		Applicant.update({'_id': body.id}, body, function(err, success) {
+		Applicant.update({'_id': body._id}, body, function(err, success) {
 			if(err) {
-				console.log("Error updating user information");
-				throw err;
+				callback(true);
 			} else {
-				console.log("User's profile was updated successfully.");
 				callback(false);
 			}
 		});
@@ -176,41 +165,35 @@ module.exports.updateUser = function(body, callback) {
 /*
  *	Function adds a photo to the user's profile, it stores the link to the picture in their document
  */
-module.exports.addUserPhoto = function(image, userId) {
+module.exports.addUserPhoto = function(image, userId, callback) {
 	//Upload the photo to imgur
-	imgur.uploadBase64(image).then(function(json) {
-		console.log(json.data.link);
-
+	imgur.uploadBase64(image)
+	.then(function(json) {
 		//Update the user's document with the generated imgur link
-		// Applicant.update({_id: userId}, {profPic: json.data.link });
-
-		Applicant.findOne({'_id': userId}, function(err, person) {
+		Applicant.findOne({'_id': userId}, function(err, user) {
 			if(err) {
-				console.log("Error finding the user.");
-				throw err;
+				callback(true);
 			} else {
-				person.profPic = json.data.link;
-				person.save();
+				user.profPic = json.data.link;
+				user.save();
 			}
 		});
+		callback(false);
 	})
 	.catch(function(err) {
-		console.log(err);
-		throw err;
+		callback(true);
 	});
 }
 
 /*
  *	Function returns the image link from the user's db document
  */
- module.exports.getPhotoURL = function(userId) {
+ module.exports.getPhotoURL = function(userId, callback) {
  		Applicant.findOne({'_id': userId}, 'profPic', function(err, person) {
  			if(err) {
- 				console.log("Error finding the user.");
- 				throw err;
+ 				callback(true, null);
  			} else {
- 				// console.log(person.profPic);
- 				return person.profPic;
+ 				callback(false, person.profPic);
  			}
  		});
- }
+}
