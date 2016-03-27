@@ -52,6 +52,7 @@ var hash = function (str) {
 module.exports.comparePassword = function(candidatePassword, hashp, callback) {
 	candidatePassword = hash(candidatePassword);
 	if (candidatePassword == hashp) {
+		console.log("Something went wrong hashing the passwords, comparison failed.");
 		callback(true);
 	} else {
 		callback(false);
@@ -64,6 +65,7 @@ module.exports.comparePassword = function(candidatePassword, hashp, callback) {
 module.exports.createUser = function(body, callback) {
 	if(body.company == null || body.business_email == null || body.password == null || body.confirmPass == null) {
 		console.log("Make sure all required fields are filled out.");
+		console.log("Required fields are: company, business_email, password, and confirmPass");
 		callback(true, null);
 	} else {
 		var company  = body.company;
@@ -89,13 +91,13 @@ module.exports.createUser = function(body, callback) {
 /*
  *	Function removes the user based off of the given user information
  */
-module.exports.removeUser = function(userId) {
+module.exports.removeUser = function(userId, callback) {
 	Employer.remove({'_id': userId}, function(err) {
 		if(err) {
-			console.log("Error removing user");
-			throw err;
+			console.log("Error removing user, check _id of user.");
+			callback(true);
 		} else  {
-			console.log("User was successfully removed from the database.");
+			callback(false);
 		}
 	});
 }
@@ -109,6 +111,7 @@ module.exports.updateUser = function(body, callback) {
 	} else {
 		Employer.update({'_id': body._id}, body, function(err, success) {
 			if(err) {
+				console.log("Error updating user, check _id of user.");
 				callback(true);
 			} else {
 				callback(false);
@@ -129,6 +132,7 @@ module.exports.updatePassword = function(body, callback) {
 	} else {
 		Employer.findOne({'_id': body._id}, function(err, user) {
 			if(err) {
+				console.log("Error updating user's password, check _id of user.");
 				callback(true);
 			} else {
 				user.password = password;
@@ -148,6 +152,7 @@ module.exports.addUserPhoto = function(image, userId, callback) {
 		//Update the user's document with the generated imgur link
 		Employer.findOne({'_id': userId}, function(err, user) {
 			if(err) {
+				console.log("Error adding photo to user's profile, check _id of user.");
 				callback(true);
 			} else {
 				user.profPic = json.data.link;
@@ -156,8 +161,8 @@ module.exports.addUserPhoto = function(image, userId, callback) {
 		});
 	})
 	.catch(function(err) {
-		console.log(err);
-		throw err;
+		console.log("Who knows what the hell went wrong. Image not uploaded.");
+		callback(true);
 	});
 }
 
@@ -167,6 +172,7 @@ module.exports.addUserPhoto = function(image, userId, callback) {
  module.exports.getPhotoURL = function(userId, callback) {
  		Employer.findOne({'_id': userId}, 'profPic', function(err, person) {
  			if(err) {
+ 				console.log("Error fetching user's photo, check _id of user");
  				callback(true, null);
  			} else {
  				callback(false, person.profPic);

@@ -39,6 +39,18 @@ var ApplicantSchema = new mongoose.Schema({
 	},
 	profPic : {
 	 	type : String
+	},
+	title : {
+		type : String
+	},
+	field : {
+		type : String
+	},
+	title_experience : {
+		type : String
+	},
+	field_experience : {
+		type : String
 	}
 
 });
@@ -65,6 +77,7 @@ var hash = function (str) {
 module.exports.comparePassword = function(candidatePassword, hashp, callback) {
 	candidatePassword = hash(candidatePassword);
 	if (candidatePassword == hashp) {
+		console.log("something went wrong hashing the passwords, comparison failed.");
 		callback(true);
 	} else {
 		callback(false);
@@ -75,9 +88,10 @@ module.exports.comparePassword = function(candidatePassword, hashp, callback) {
  *	Function creates a new user from given user information
  */
 module.exports.createUser = function(body, callback) {
-	if(body.name == null || body.email == null || body.password == null || body.confirmPass == null) {
+	if(body.name == null || body.email == null || body.password == null || body.confirmPass == null
+		|| body.field == null || body.field_experience == null) {
 		console.log("Please make sure required fields are populated.");
-		console.log("Required: Name, email, password, confirm Password.");
+		console.log("Required: Name, email, password, confirm Password, field, and field_experience.");
 		callback(true, null);
 	} else {
 		var name  = body.name;
@@ -89,6 +103,10 @@ module.exports.createUser = function(body, callback) {
 		var bio = body.bio;
 		var city = body.city;
 		var state = body.state;
+		var title = body.title;
+		var field = body.field;
+		var titleExperience = body.title_experience;
+		var fieldExperience = body.field_experience;
 
 		if(password != confirmPass) {
 			console.log("Passwords do not match.");
@@ -103,7 +121,11 @@ module.exports.createUser = function(body, callback) {
 				age : age,
 				bio : bio,
 				city : city,
-				state : state
+				state : state,
+				title : title,
+				field : field,
+				title_experience : titleExperience,
+				field_experience : fieldExperience
 			});
 			newUser.save(callback);
 		}
@@ -122,6 +144,7 @@ module.exports.updatePassword = function(body, callback) {
 	} else {
 		Applicant.findOne({'_id': body._id}, function(err, user) {
 			if(err) {
+				console.log("Error updating user's password, check _id of user.");
 				callback(true);
 			} else {
 				user.password = password;
@@ -137,6 +160,7 @@ module.exports.updatePassword = function(body, callback) {
 module.exports.removeUser = function(userId, callback) {
 	Applicant.findOne({'_id': userId}, function(err, user) {
 		if(err) {
+			console.log("Error removing user, check _id of user.");
 			callback(true);
 		} else  {
 			user.remove();
@@ -154,6 +178,7 @@ module.exports.updateUser = function(body, callback) {
 	} else {
 		Applicant.update({'_id': body._id}, body, function(err, success) {
 			if(err) {
+				console.log("Error updating user information, check _id of user.");
 				callback(true);
 			} else {
 				callback(false);
@@ -181,6 +206,7 @@ module.exports.addUserPhoto = function(image, userId, callback) {
 		callback(false);
 	})
 	.catch(function(err) {
+		console.log("Error uploading file. Who the hell knows what went wrong.");
 		callback(true);
 	});
 }
@@ -191,6 +217,7 @@ module.exports.addUserPhoto = function(image, userId, callback) {
  module.exports.getPhotoURL = function(userId, callback) {
  		Applicant.findOne({'_id': userId}, 'profPic', function(err, person) {
  			if(err) {
+ 				console.log("Error fetching link to photo, check _id of user.");
  				callback(true, null);
  			} else {
  				callback(false, person.profPic);

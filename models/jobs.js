@@ -16,10 +16,25 @@ var JobSchema = new mongoose.Schema({
 	description : {
 		type : String
 	},
-	type : {
+	title : {
 		type : String
 	},
 	starting_rate : {
+		type : String
+	},
+	field : {
+		type : String
+	},
+	title_experience : {
+		type : String
+	},
+	field_experience : {
+		type : String
+	},
+	city : {
+		type : String
+	},
+	state : {
 		type : String
 	}
 });
@@ -31,21 +46,34 @@ var Job = module.exports = mongoose.model('job', JobSchema);
  */
 module.exports.createJob = function(body, callback) {
 
-	if(body.company_name == null || body.employer_id == null || type == null) {
+	if(body.company_name == null || body.employer_id == null || body.title == null || body.field == null
+		|| body.title_experience == null || body.city == null || body.state == null || body.field_experience == null) {
+		console.log("Please make sure all required fields are populated.");
+		console.log("Required fields are: company_name, employer_id, title, field, title_experience, field_experience, city, and state.");
 		callback(true, null);
 	} else {
 		var companyName = body.company_name;
 		var employerId = body.employer_id;
 		var description = body.description;
-		var type = body.type;
+		var title = body.title;
 		var startingRate = body.starting_rate;
+		var field = body.field;
+		var titleExperience = body.title_experience;
+		var fieldExperience = body.field_experience;
+		var city = body.city;
+		var state = body.state;
 
 		var newJob = new Job({
 			company_name : companyName,
 			employer_id : employerId,
 			description : description,
-			type : type,
-			starting_rate : startingRate
+			title : title,
+			starting_rate : startingRate,
+			field : field,
+			title_experience : titleExperience,
+			field_experience : fieldExperience,
+			city : city,
+			state : state
 		});
 
 		newJob.save(callback(false));
@@ -62,14 +90,13 @@ module.exports.getListofJobs = function(employerId, callback) {
 	//Find all documents with the given ID
 	Employer.fineOne({'_id': employerId}, function(err, list) {
 		if(err) {
-			console.log("Error finding list of jobs.");
+			console.log("Error finding list of jobs. Check employer_id");
 			callback(true, null);
 		} else {
 			list.forEach(function(job) {
 				jobs.push(job);
 			});
-			console.log("List of jobs found successfully.");
-			callback(false, jobs);
+				callback(false, jobs);
 		}
 	});
 }
@@ -80,6 +107,7 @@ module.exports.getListofJobs = function(employerId, callback) {
 module.exports.deleteJob = function(jobId, callback) {
 	Job.findOne({'_id': jobId}, function(err, job) {
 		if(err) {
+			console.log("Error deleting job, check _id of job.");
 			callback(true);
 		} else {
 			job.remove();
