@@ -21,6 +21,32 @@ router.get('/:id', function(req, res, next) {
   	});
 });
 
+
+/*
+ * POST - Login user, if successful send user object back in the response
+ */
+ router.post('/login', function(req, res, next) {
+ 	var email = req.body.email;
+ 	var password = req.body.password;
+ 	Applicant.findOne({email : email}, function(err, applicant) {
+ 		// if the password matches, send applicant in the response, otherwise
+ 		// send an empty object
+ 		if (err) {
+ 			throw err;
+ 		} else if (applicant != null) {
+ 			Applicant.comparePassword(password, applicant.password, function(success) {
+ 				if (success) {
+ 					res.send(applicant);
+ 				} else {
+					res.send(null);
+ 				}
+ 			});
+ 		} else {
+ 			res.send(null);
+ 		}
+ 	});
+ });
+
 /*
  * POST - Login user, if successful send user object back in the response
  */

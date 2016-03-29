@@ -1,9 +1,9 @@
 /*
  * Jobs Model.
+<<<<<<< HEAD
  * @author - Austin Bullard
  */
 var mongoose = require('mongoose');
-
 //Job Schema
 var JobSchema = new mongoose.Schema({
 	company_name : {
@@ -35,6 +35,12 @@ var JobSchema = new mongoose.Schema({
 		type : String
 	},
 	state : {
+		type : String
+	},
+	type : {
+		type : String
+	},
+	hourly_rate : {
 		type : String
 	}
 });
@@ -114,4 +120,10 @@ module.exports.deleteJob = function(jobId, callback) {
 			callback(false);
 		}
 	});
+
+/*
+ *	Function creates a new job
+ */
+module.exports.createJob = function(newJob, callback) {
+	newJob.save(callback);
 }

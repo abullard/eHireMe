@@ -1,5 +1,6 @@
 /*
  * Employer Model.
+<<<<<<< HEAD
  * @author - Austin Bullard
  */
 
@@ -9,6 +10,7 @@ var db = mongoose.connection;
 //Require the imgur module for image hosting
 var imgur = require('imgur');
 imgur.setClientId('e99125efb5a7704');
+var mongoose = require('mongoose');
 
 //Employer Schema
 var EmployerSchema = new mongoose.Schema({
@@ -20,6 +22,9 @@ var EmployerSchema = new mongoose.Schema({
 		type : String
 	},
 	business_email : {
+		type : String
+	},
+	email : {
 		type : String
 	},
 	description : {
@@ -179,3 +184,8 @@ module.exports.addUserPhoto = function(image, userId, callback) {
  			}
  		});
  }
+
+module.exports.createEmployer = function(newEmployer, callback) {
+	newEmployer.password = hash(newEmployer.password);
+	newEmployer.save(callback);
+}
