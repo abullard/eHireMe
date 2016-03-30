@@ -2,7 +2,6 @@
  * Endpoints/routes for employer
  * @author - Austin Bullard
  */
-
 var express = require('express');
 var router = express.Router();
 
@@ -17,19 +16,6 @@ router.get('/:id', function(req, res, next) {
   	Employer.findById(req.params.id, function(err, employer) {
   		if (err) {
   			res.send('{"user found":"false"}');
-		} else {
-			res.send(employer);
-		}
-	});
-}
-
-/* 
- * GET employers by their company name. 
- */
-router.get('/:company', function(req, res, next) {
-  	Employer.findOne({company : req.params.name}, function(err,employer) {
-  		if (err) {
-  			throw err;
   		} else {
   			res.send(employer);
   		}
@@ -37,7 +23,6 @@ router.get('/:company', function(req, res, next) {
 });
 
 /*
-<<<<<<< HEAD
  * POST - Login user, if successful send user object back in the response
  */
  router.post('/login', function(req, res, next) {
@@ -57,7 +42,8 @@ router.get('/:company', function(req, res, next) {
  				}
  			});
  		} else {
- 			res.send(JSON.parse('{"login successful":"false"}')); 		}
+ 			res.send(JSON.parse('{"login successful":"false"}'));
+ 		}
  	});
  });
 
