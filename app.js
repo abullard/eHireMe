@@ -1,6 +1,6 @@
 /*
  * Setup Libraries and routes
- * @author - Mac Liu
+ * @author - Austin Bullard
  */
 
 var express = require('express');
@@ -35,6 +35,7 @@ app.use('/employers', employers);
 app.use('/jobs', jobs);
 
 var mongoose = require('mongoose');
+//mongoose.connect(process.env.MONGOLAB_URI);
 mongoose.connect("mongodb://localhost/eHireMe");
 
 // catch 404 and forward to error handler
