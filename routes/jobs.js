@@ -35,6 +35,23 @@ router.post('/create', function(req, res) {
 	});
 });
 
+/*
+ *	POST - updates body of the job
+ */
+router.post('/update', function(req, res) {
+	Jobs.updateJob(req.body, function(err) {
+		if(err) {
+			res.send(JSON.parse('{"Job updated":"false"}'));
+		} else {
+			res.send(JSON.parse('{"Job updated":"true"}'));
+
+		}
+	})
+});
+
+/*
+ *	DELETE - removes job from database
+ */
 router.delete('/delete', function(req, res) {
 	Jobs.deleteJob(req.body._id, function(err) {
 		if(err) {

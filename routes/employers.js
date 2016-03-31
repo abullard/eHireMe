@@ -141,4 +141,15 @@ router.get('/getApplicants/:id', function(req, res) {
 	});
 });
 
+//Returns a list of jobs as JSON objects from given employerId
+router.get('/getJobs/:id', function(req, res) {
+	Job.getListofJobs(req.params.id, function(err, jobs) {
+		if(err) {
+			res.send(JSON.parse('{"Job-List Found":"false"}'));
+		} else {
+			res.send(jobs);
+		}
+	});
+});
+
 module.exports = router;

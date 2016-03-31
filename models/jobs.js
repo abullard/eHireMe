@@ -88,7 +88,7 @@ module.exports.getListofJobs = function(employerId, callback) {
 	var jobs = [];
 
 	//Find all documents with the given ID
-	Employer.fineOne({'_id': employerId}, function(err, list) {
+	Job.find({'employer_id': employerId}, function(err, list) {
 		if(err) {
 			console.log("Error finding list of jobs. Check employer_id");
 			callback(true, null);
@@ -97,6 +97,20 @@ module.exports.getListofJobs = function(employerId, callback) {
 				jobs.push(job);
 			});
 				callback(false, jobs);
+		}
+	});
+}
+
+/*
+ *	Function updates the Job's Mongo Document
+ */
+module.exports.updateJob = function(body, callback) {
+	Job.update({'_id': body._id}, body, function(err, success) {
+		if(err) {
+			console.log("Something went wrong updating the job, check the _id.");
+			callback(true);
+		} else {
+			callback(false);
 		}
 	});
 }
