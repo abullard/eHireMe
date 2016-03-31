@@ -51,7 +51,7 @@ var hash = function (str) {
  */
 module.exports.comparePassword = function(candidatePassword, hashp, callback) {
 	candidatePassword = hash(candidatePassword);
-	if (candidatePassword == hashp) {
+	if (candidatePassword != hashp) {
 		console.log("Something went wrong hashing the passwords, comparison failed.");
 		callback(true);
 	} else {
@@ -65,7 +65,7 @@ module.exports.comparePassword = function(candidatePassword, hashp, callback) {
 module.exports.createUser = function(body, callback) {
 	if(body.company == null || body.email == null || body.password == null || body.confirmPass == null) {
 		console.log("Make sure all required fields are filled out.");
-		console.log("Required fields are: company, business_email, password, and confirmPass");
+		console.log("Required fields are: company, email, password, and confirmPass");
 		callback(true, null);
 	} else {
 		var company  = body.company;
