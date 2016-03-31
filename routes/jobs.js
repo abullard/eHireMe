@@ -41,7 +41,7 @@ router.get('/:id', function(req, res) {
 router.post('/create', function(req, res) {
 	Jobs.createJob(req.body, function(err) {
 		if(err) {
-			res.send(JSON.parse('{"Job created":"false"}')):
+			res.send(JSON.parse('{"Job created":"false"}'));
 		} else {
 			res.send(job);
 		}
