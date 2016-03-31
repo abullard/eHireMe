@@ -19,7 +19,7 @@ var EmployerSchema = new mongoose.Schema({
 	password : {
 		type : String
 	},
-	business_email : {
+	email : {
 		type : String
 	},
 	description : {
@@ -63,13 +63,13 @@ module.exports.comparePassword = function(candidatePassword, hashp, callback) {
  *	Function creates a new user from given employer information
  */
 module.exports.createUser = function(body, callback) {
-	if(body.company == null || body.business_email == null || body.password == null || body.confirmPass == null) {
+	if(body.company == null || body.email == null || body.password == null || body.confirmPass == null) {
 		console.log("Make sure all required fields are filled out.");
 		console.log("Required fields are: company, business_email, password, and confirmPass");
 		callback(true, null);
 	} else {
 		var company  = body.company;
-		var email = body.business_email.toLowerCase().trim();
+		var email = body.email.toLowerCase().trim();
 		var password = hash(body.password);
 		var confirmPass = hash(body.confirmPass);
 		var description = body.description;
@@ -79,7 +79,7 @@ module.exports.createUser = function(body, callback) {
 		} else {
 			var newEmployer = new Employer({
 				company : company,
-				business_email : email,
+				email : email,
 				password : password,
 				description : description
 			});

@@ -26,10 +26,10 @@ router.get('/:id', function(req, res, next) {
  * POST - Login user, if successful send user object back in the response
  */
  router.post('/login', function(req, res, next) {
- 	var businessEmail = req.body.business_email;
+ 	var email = req.body.email;
  	var password = req.body.password;
 
- 	Employer.findOne({'business_email': businessEmail}, function(err, employer) {
+ 	Employer.findOne({'email': email}, function(err, employer) {
  		// if the password matches, send employer in the response
  		if(err) {
  		 	res.send(JSON.parse('{"login successful":"false"}'));
