@@ -10,19 +10,6 @@ var Jobs = require('../models/jobs');
 var Employer = require('../models/employers');
 
 /* 
- * GET All jobs.
- */
-router.get('/:id', function(req, res) {
-  	Jobs.find({'_id' : req.params._id}, function(err, employer) {
-  		if (err) {
-  			throw err;
-  		} else {
-  			res.send(employer);
-  		}
-  	});
-});
-
-/* 
  * GET jobs by their employer id. 
  */
 router.get('/:id', function(req, res) {
@@ -39,7 +26,7 @@ router.get('/:id', function(req, res) {
  *	POST - creates new job
  */
 router.post('/create', function(req, res) {
-	Jobs.createJob(req.body, function(err) {
+	Jobs.createJob(req.body, function(err, job) {
 		if(err) {
 			res.send(JSON.parse('{"Job created":"false"}'));
 		} else {
