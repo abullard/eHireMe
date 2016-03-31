@@ -76,7 +76,7 @@ module.exports.createJob = function(body, callback) {
 			state : state
 		});
 
-		newJob.save(callback(false));
+		newJob.save(callback);
 	}
 }
 
