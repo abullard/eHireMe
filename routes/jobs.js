@@ -1,6 +1,6 @@
 /*
  * Endpoints/routes for Jobs
- * @author - Mac Liu
+ * @author - Austin Bullard
  */
 
 var express = require('express');
@@ -12,12 +12,12 @@ var Employer = require('../models/employers');
 /* 
  * GET All jobs.
  */
-router.get('', function(req, res, next) {
-  	Jobs.find({}, function(err,employers) {
+router.get('/:id', function(req, res) {
+  	Jobs.find({'_id' : req.params._id}, function(err, employer) {
   		if (err) {
   			throw err;
   		} else {
-  			res.send(employers);
+  			res.send(employer);
   		}
   	});
 });
@@ -25,9 +25,9 @@ router.get('', function(req, res, next) {
 /* 
  * GET jobs by their employer id. 
  */
-router.get('/:id', function(req, res, next) {
+router.get('/:id', function(req, res) {
   	Jobs.findAll({employer : req.params.id}, function(err,employers) {
-  		if (err) {
+  		if(err) {
   			throw err;
   		} else {
   			res.send(employers);
@@ -38,24 +38,23 @@ router.get('/:id', function(req, res, next) {
 /*
  *	POST - creates new job
  */
-router.post('/create', function(req, res, next) {
-	var company  = req.body.company;
-	var employer_id = req.body.employer_id;
-	var type = req.body.type;
-	var description = req.body.description;
-	var hourly_rate = req.body.hourly_rate;
-
-	var newJob = new Jobs({
-		company_name : company,
-		employer_id : employer_id,
-		type : type,
-		description : description,
-		hourly_rate : hourly_rate
+router.post('/create', function(req, res) {
+	Jobs.createJob(req.body, function(err) {
+		if(err) {
+			res.send(JSON.parse('{"Job created":"false"}')):
+		} else {
+			res.send(job);
+		}
 	});
+});
 
-	Jobs.createJob(newJob, function(error, job) {
-		if (error) throw error;
-		res.send(job);
+router.delete('/delete', function(req, res) {
+	Jobs.deleteJob(req.body._id, function(err) {
+		if(err) {
+			res.send(JSON.parse('{"Job deleted":"false"}'));
+		} else {
+			res.send(JSON.parse('{"Job deleted":"true"}'));
+		}
 	});
 });
 
