@@ -9,11 +9,26 @@ var router = express.Router();
 var Jobs = require('../models/jobs');
 var Employer = require('../models/employers');
 
+
+/*
+ * GET all jobs
+ */
+router.get('/all', function (req, res) {
+	Jobs.find({}, function (err, employers) {
+		if (err) {
+			throw err;
+		}
+		else{
+			res.send(employers);
+		}
+	})
+});
+
 /* 
  * GET jobs by their employer id. 
  */
 router.get('/:id', function(req, res) {
-  	Jobs.findAll({employer : req.params.id}, function(err,employers) {
+  	Jobs.find({employer_id : req.params.id}, function(err,employers) {
   		if(err) {
   			throw err;
   		} else {

@@ -53,9 +53,9 @@ module.exports.comparePassword = function(candidatePassword, hashp, callback) {
 	candidatePassword = hash(candidatePassword);
 	if (candidatePassword != hashp) {
 		console.log("Something went wrong hashing the passwords, comparison failed.");
-		callback(true);
-	} else {
 		callback(false);
+	} else {
+		callback(true);
 	}
 }
 
