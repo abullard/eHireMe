@@ -19,7 +19,7 @@ router.get('/all', function (req, res) {
 			throw err;
 		}
 		else{
-			res.send(employers);
+			res.send({jobs: employers});
 		}
 	})
 });
