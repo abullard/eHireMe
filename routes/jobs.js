@@ -38,6 +38,24 @@ router.post('/exists', function (req, res) {
 
 });
 
+router.get('/getMatches/:id', function(req, res){
+	Match.find({user_id : req.params.id}, function (err, matches) {
+		if (err){throw err;}
+		else{
+			var job_ids = [];
+			matches.forEach(function(element, index, array){
+				job_ids.push(element.job_id);
+			});
+			Jobs.find({_id : {$in : job_ids}}, function (err, jobs) {
+				if (err) {throw err;}
+				else{
+					res.send({jobs: jobs});
+				}
+			});
+		}
+	});
+});
+
 /* 
  * GET jobs by their employer id. 
  */
