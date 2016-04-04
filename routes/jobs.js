@@ -8,7 +8,7 @@ var router = express.Router();
 
 var Jobs = require('../models/jobs');
 var Employer = require('../models/employers');
-
+var Match = require('../models/matches');
 
 /*
  * GET all jobs
@@ -22,6 +22,20 @@ router.get('/all', function (req, res) {
 			res.send({jobs: employers});
 		}
 	})
+});
+
+router.post('/exists', function (req, res) {
+	Match.find({$and : [{user_id : req.body.user_id},{ job_id : req.body.job_id}]},function(err,applicant){
+		if(err)
+		{
+			throw err;
+		}
+		else {
+			var bool = applicant.length > 0;
+			res.send({truthity:bool});
+		}
+	})
+
 });
 
 /* 
