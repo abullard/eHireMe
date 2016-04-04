@@ -53,7 +53,6 @@ var ApplicantSchema = new mongoose.Schema({
 	field_experience : {
 		type : String
 	}
-
 });
 
 var Applicant = module.exports = mongoose.model('applicants', ApplicantSchema);

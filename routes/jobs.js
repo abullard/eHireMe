@@ -8,12 +8,59 @@ var router = express.Router();
 
 var Jobs = require('../models/jobs');
 var Employer = require('../models/employers');
+var Match = require('../models/matches');
+
+/*
+ * GET all jobs
+ */
+router.get('/all', function (req, res) {
+	Jobs.find({}, function (err, employers) {
+		if (err) {
+			throw err;
+		}
+		else{
+			res.send({jobs: employers});
+		}
+	})
+});
+
+router.post('/exists', function (req, res) {
+	Match.find({$and : [{user_id : req.body.user_id},{ job_id : req.body.job_id}]},function(err,applicant){
+		if(err)
+		{
+			throw err;
+		}
+		else {
+			var bool = applicant.length > 0;
+			res.send({truthity:bool});
+		}
+	})
+
+});
+
+router.get('/getMatches/:id', function(req, res){
+	Match.find({user_id : req.params.id}, function (err, matches) {
+		if (err){throw err;}
+		else{
+			var job_ids = [];
+			matches.forEach(function(element, index, array){
+				job_ids.push(element.job_id);
+			});
+			Jobs.find({_id : {$in : job_ids}}, function (err, jobs) {
+				if (err) {throw err;}
+				else{
+					res.send({jobs: jobs});
+				}
+			});
+		}
+	});
+});
 
 /* 
  * GET jobs by their employer id. 
  */
 router.get('/:id', function(req, res) {
-  	Jobs.findAll({employer : req.params.id}, function(err,employers) {
+  	Jobs.find({employer_id : req.params.id}, function(err,employers) {
   		if(err) {
   			throw err;
   		} else {
