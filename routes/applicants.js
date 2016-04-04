@@ -38,11 +38,11 @@ router.get('/:id', function(req, res, next) {
  				if (success) {
  					res.send(applicant);
  				} else {
-					res.send(JSON.parse('{"login successful":"false"}'));
+					res.send(null);
  				}
  			});
  		} else {
- 			res.send(JSON.parse('{"login successful":"false"}'));
+ 			res.send(null);
  		}
  	});
  });
