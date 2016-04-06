@@ -36,7 +36,7 @@ module.exports.apply = function(body, callback) {
 	});
 
 	newMatch.save(callback);
-}
+};
 
 /*
  *	Function creates a list of the user_id's that have applied for the given job_id from
@@ -60,26 +60,7 @@ module.exports.getListofApplicants = function(job_id, callback) {
 			callback(false, applicants);
 		}
 	});
-}
-
-/**
- * Returns an array of jobs that the user has applied to
- * @param user_id
- */
-module.exports.getListofAppliedJobs = function (user_id) {
-
-	Matches.find({user_id : user_id}, function (err, job_ids) {
-		if (err){throw err;}
-		else{
-			job.find({_id : {$in : job_ids}}, function (err, jobs) {
-				if (err) {throw err;}
-				else{
-					return jobs;
-				}
-			});
-		}
-	});
-}
+};
 
 /*
  *	Function removes an entry from the Matches Table
@@ -94,4 +75,4 @@ module.exports.getListofAppliedJobs = function (user_id) {
  			callback(false);
  		}
  	});
- } 
+ };

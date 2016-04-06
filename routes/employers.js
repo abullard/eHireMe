@@ -147,7 +147,7 @@ router.get('/getJobs/:id', function(req, res) {
 		if(err) {
 			res.send(JSON.parse('{"Job-List Found":"false"}'));
 		} else {
-			res.send(jobs);
+			res.send({jobs: jobs});
 		}
 	});
 });
