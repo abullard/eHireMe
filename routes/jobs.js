@@ -42,6 +42,24 @@ router.get('/getMatches/:id', function(req, res){
 	});
 });
 
+router.get('/getApplicants/:jobid', function (req, res) {
+	Match.find({job_id : req.params.jobid}, function (err, matches) {
+		if (err) {throw err;}
+		else{
+			var applicant_ids = [];
+			matches.forEach(function (element, index, array) {
+				applicant_ids.push(element.user_id);
+			});
+			Applicants.find({_id : {$in : applicant_ids}}, function (err, applicantsback) {
+				if (err) {throw err;}
+				else{
+					res.send({applicants: applicantsback});
+				}
+			});
+		}
+	});
+});
+
 /* 
  * GET jobs by their employer id. 
  */

@@ -43,33 +43,6 @@ module.exports.apply = function(body, callback) {
 };
 
 /*
- *	Function creates a list of the user_id's that have applied for the given job_id from
- *	the current table
- */
-module.exports.getListofApplicants = function(job_id, callback) {
-	Matches.find({'job_id': job_id}, function(err, matches) {
-		if(err) {
-			callback(true, null);
-		} else {
-			var applicant_ids = [];
-
-			matches.forEach(function (element, index, array) {
-				applicant_ids.push(element.user_id);
-			});
-
-			Applicants.find({_id : {$in : applicant_ids}}, function (err, applicantsback) {
-				if (err) {
-					callback(true, null);
-				} else {
-					callback(false, applicantsback);
-				}
-			});
-		}
-	});
-}
-
-
-/*
  *	Function removes an entry from the Matches Table
  */
  module.exports.removeMatch = function(matchId, callback) {

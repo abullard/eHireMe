@@ -130,17 +130,6 @@ router.post('/removeMatch', function(req, res) {
 	});
 });
 
-//Extracts the id parameter from the request to find a list of applicants to a specific job
-router.get('/getApplicants/:id', function(req, res) {
-	Matches.getListofApplicants(req.params.id, function(err, applicants) {
-		if(err) {
-			res.send(null);
-		} else {
-			res.send({applicants: applicants});
-		}
-	});
-});
-
 //Returns a list of jobs as JSON objects from given employerId
 router.get('/getJobs/:id', function(req, res) {
 	Job.getListofJobs(req.params.id, function(err, jobs) {
