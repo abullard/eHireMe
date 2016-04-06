@@ -61,11 +61,21 @@ module.exports.apply = function(body, callback) {
  *	Function approves a match between a job and an applicant
  */
  module.exports.ApproveMatch = function(body, callback) {
- 		Matches.update({$and: [{'job_id': body.job_id}, {'user_id': body.user_id}]}, {$set: {approved: true}}, function(err) {
- 			if(err) {
- 				callback(true);
- 			} else {
- 				callback(false);
- 			}
- 		});
+	Matches.update({$and: [{'job_id': body.job_id}, {'user_id': body.user_id}]}, {$set: {approved: true}}, function(err) {
+		if(err) {
+			callback(true);
+		} else {
+			callback(false);
+		}
+	});
  }
+
+module.exports.checkMatch = function(body, callback) {
+	Matches.findOne({$and: [{'job_id': body.job_id},{'user_id': user_id}]}, function(err, match) {
+		if(err) {
+			callback(true, null);
+		} else {
+			callback(false, match);
+		}
+	});
+}

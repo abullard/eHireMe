@@ -151,4 +151,15 @@ router.post('/approve', function(req, res) {
 	});
 });
 
+router.post('/didAccept', function(req, res) {
+	Matches.checkMatch(req.body, function(err, match) {
+		if(err) {
+			res.send({truthity: false});
+		} else {
+			var bool = match.length > 0;
+			res.send({truthity: bool});
+		}
+	});
+});
+
 module.exports = router;
