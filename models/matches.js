@@ -40,7 +40,7 @@ module.exports.apply = function(body, callback) {
 	});
 
 	newMatch.save(callback);
-}
+};
 
 /*
  *	Function creates a list of the user_id's that have applied for the given job_id from
@@ -65,6 +65,7 @@ module.exports.getListofApplicants = function(job_id, callback) {
 		}
 	});
 }
+
 
 /*
  *	Function removes an entry from the Matches Table

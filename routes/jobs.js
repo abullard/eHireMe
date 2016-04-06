@@ -9,6 +9,7 @@ var router = express.Router();
 var Jobs = require('../models/jobs');
 var Employer = require('../models/employers');
 var Match = require('../models/matches');
+var Applicants = require('../models/applicants');
 
 /*
  * GET all jobs
@@ -19,7 +20,7 @@ router.get('/all', function (req, res) {
 			console.log("Error finding all jobs.");
 			res.send(null);
 		} else {
-			res.send({jobs: employers});
+			res.send(employers);
 		}
 	})
 });
@@ -44,10 +45,28 @@ router.get('/getMatches/:id', function(req, res){
 			matches.forEach(function(element, index, array){
 				job_ids.push(element.job_id);
 			});
-			Jobs.find({_id : {$in : job_ids}}, function (err, jobs) {
+			Jobs.find({_id : {$in : job_ids}}, function (err, jobsback) {
 				if (err) {throw err;}
 				else{
-					res.send({jobs: jobs});
+					res.send({jobs: jobsback});
+				}
+			});
+		}
+	});
+});
+
+router.get('/getApplicants/:jobid', function (req, res) {
+	Match.find({job_id : req.params.jobid}, function (err, matches) {
+		if (err) {throw err;}
+		else{
+			var applicant_ids = [];
+			matches.forEach(function (element, index, array) {
+				applicant_ids.push(element.user_id);
+			});
+			Applicants.find({_id : {$in : applicant_ids}}, function (err, applicantsback) {
+				if (err) {throw err;}
+				else{
+					res.send({applicants: applicantsback});
 				}
 			});
 		}
