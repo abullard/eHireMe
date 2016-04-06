@@ -47,21 +47,19 @@ module.exports.apply = function(body, callback) {
  *	the current table
  */
 module.exports.getListofApplicants = function(job_id, callback) {
-	//array of applicant user's that have applied for a given job
-	var applicants = [];
-
-	//find a list of the applicant's from the given job_id
-	Matches.find({"job_id": job_id}, function(err, list) {
-		if(err) {
-			console.log("There was a problem finding the list of applicants");
-			callback(true, null);
-		} else {
-			//Iterate through each applicant and push them to the array
-			list.forEach(function(applicant) {
-				applicants.push(applicant);
+	Matches.find({'job_id': req.params.job_id}, function (err, matches) {
+		if (err) {throw err;}
+		else{
+			var applicant_ids = [];
+			matches.forEach(function (element, index, array) {
+				applicant_ids.push(element.user_id);
 			});
-			console.log("List of applicants found successfully.");
-			callback(false, applicants);
+			Applicants.find({_id : {$in : applicant_ids}}, function (err, applicantsback) {
+				if (err) {throw err;}
+				else{
+					res.send({applicants: applicantsback});
+				}
+			});
 		}
 	});
 }
