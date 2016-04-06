@@ -4,7 +4,7 @@
  */
 
 var mongoose = require('mongoose');
-//mongoose.connect(process.env.MONGOLAB_URI);
+var Matches = require('../models/matches');
 var db = mongoose.connection;
 
 //Require the imgur module for image hosting
@@ -53,7 +53,6 @@ var ApplicantSchema = new mongoose.Schema({
 	field_experience : {
 		type : String
 	}
-
 });
 
 var Applicant = module.exports = mongoose.model('applicants', ApplicantSchema);
@@ -207,7 +206,7 @@ module.exports.addUserPhoto = function(image, userId, callback) {
 		callback(false);
 	})
 	.catch(function(err) {
-		console.log("Error uploading file. Who the hell knows what went wrong.");
+		console.log("Error uploading file.");
 		callback(true);
 	});
 }
@@ -224,4 +223,14 @@ module.exports.addUserPhoto = function(image, userId, callback) {
  				callback(false, person.profPic);
  			}
  		});
+}
+
+module.exports.MatchExists = function(body, callback) {
+	Matches.find({$and : [{user_id : body.user_id}, { job_id : body.job_id}]}, function(err, applicant) {
+		if(err) {
+			callback(true, null);
+		} else {
+			callback(false, applicant);
+		}
+	});
 }

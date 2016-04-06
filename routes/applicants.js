@@ -14,7 +14,7 @@ var Matches = require('../models/matches');
 router.get('/:id', function(req, res, next) {
   	Applicant.findById(req.params.id, function(err,applicant) {
   		if (err) {
-  			res.send('{"user found":"false"}');
+			res.send({truthity: false});
   		} else {
   			res.send(applicant);
   		}
@@ -38,11 +38,11 @@ router.get('/:id', function(req, res, next) {
  				if (success) {
  					res.send(applicant);
  				} else {
-					res.send(JSON.parse('{"login successful":"false"}'));
+					res.send(null);
  				}
  			});
  		} else {
- 			res.send(JSON.parse('{"login successful":"false"}'));
+ 			res.send(null);
  		}
  	});
  });
@@ -54,7 +54,7 @@ router.get('/:id', function(req, res, next) {
 router.post('/register', function(req, res, next) {
 	Applicant.createUser(req.body, function(err, user) {
 		if(err) {
-			res.send(JSON.parse('{"User registered":"false"}'));
+			res.send(null);
 		} else {
 			res.send(user);
 		}
@@ -66,9 +66,9 @@ router.post('/update', function(req, res) {
 	Applicant.updateUser(req.body, function(err) {
 		if(err) {
 			console.log("User's password cannot be updated from '/update'");
-			res.send(JSON.parse('{"Profile Updated":"false"}'));
+			res.send({truthity: false});
 		} else {
-			res.send(JSON.parse('{"Profile Updated":"true"}'));
+			res.send({truthity: true});
 		}
 	});
 });
@@ -77,9 +77,9 @@ router.post('/update', function(req, res) {
 router.delete('/delete', function(req, res) {
 	Applicant.removeUser(req.body._id, function(err) {
 		if(err) {
-			res.send(JSON.parse('{"User removed":"false"}'));
+			res.send({truthity: false});
 		} else {
-			res.send(JSON.parse('{"User removed":"true"}'));
+			res.send({truthity: true});
 
 		}
 	});
@@ -89,10 +89,10 @@ router.delete('/delete', function(req, res) {
 router.post('/addPhoto', function(req, res) {
 	Applicant.addUserPhoto(req.body.image, req.body._id, function(err) {
 		if(err) {
-			res.send(JSON.parse('{"Picture uploaded successfully":"false"}'));
+			res.send({truthity: false});
 
 		} else {
-			res.send(JSON.parse('{"Picture uploaded successfully":"true"}'));
+			res.send({truthity: true});
 		}
 	});
 });
@@ -101,7 +101,7 @@ router.post('/addPhoto', function(req, res) {
 router.get('/getPhoto/:id', function(req, res) {
 	Applicant.getPhotoURL(req.params.id, function(err, url) {
 		if(err) {
-			res.send(JSON.parse('{"Link Found":"false"}'));
+			res.send(null);
 		} else  {
 			res.send(url);
 		}
@@ -112,9 +112,9 @@ router.get('/getPhoto/:id', function(req, res) {
 router.post('/updatePassword', function(req, res) {
 	Applicant.updatePassword(req.body, function(err) {
 		if(err) {
-			res.send(JSON.parse('{"password changed":"false"}'));
+			res.send({truthity: null});
 		} else {
-			res.send(JSON.parse('{"password changed":"true"}'));
+			res.send({truthity: true});
 		}
 	});
 });
@@ -123,7 +123,7 @@ router.post('/updatePassword', function(req, res) {
 router.post('/makeMatch', function(req, res) {
 	Matches.apply(req.body, function(err, match) {
 		if(err) {
-			res.send(JSON.parse('{"Match linked":"false"}'));
+			res.send(null);
 		} else {
 			res.send(match);
 		}
@@ -134,9 +134,20 @@ router.post('/makeMatch', function(req, res) {
 router.post('/removeMatch', function(req, res) {
 	Matches.removeMatch(req.body.matchId, function(err) {
 		if(err) {
-			res.send(JSON.parse('{"Match removed" : "false"}'));
+			res.send({truthity: false});
 		} else {
-			res.send(JSON.parse('{"Match removed" : "true"}'));
+			res.send({truthity: true});
+		}
+	});
+});
+
+router.post('/exists', function (req, res) {
+	Applicant.MatchExists(req.body, function(err, applicant) {
+		if(err) {
+			res.send({truthity: false});
+		} else {
+			var bool = applicant.length > 0;
+			res.send({truthity: bool});
 		}
 	});
 });

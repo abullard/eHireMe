@@ -24,19 +24,60 @@ var Employer = require('../models/employers');
 var Applicant = require('../models/applicants');
 
 var careerLevels = ["No experience","1-3 years","3-5 years","5-10 years","10-20 years","20+ years"];
+var Match = require('../models/matches');
+var Applicants = require('../models/applicants');
 
 /*
  * GET all jobs
  */
 router.get('/all', function (req, res) {
-	Jobs.find({}, function (err, employers) {
-		if (err) {
-			throw err;
+	Jobs.getAllJobs(function(err, jobs) {
+		if(err) {
+			res.send(null);
+		} else {
+			res.send({jobs: jobs});
 		}
-		else{
-			res.send({jobs: employers});
+	});
+});
+
+router.get('/getMatches/:id', function(req, res){
+	Match.find({user_id : req.params.id}, function (err, matches) {
+		if(err){
+			res.send(null);
+		} else {
+			var job_ids = [];
+			matches.forEach(function(element, index, array){
+				job_ids.push(element.job_id);
+			});
+			Jobs.find({_id : {$in : job_ids}}, function (err, jobsback) {
+				if(err) {
+					res.send(null);
+				} else {
+					res.send({jobs: jobsback});
+				}
+			});
 		}
-	})
+	});
+});
+
+router.get('/getApplicants/:jobid', function (req, res) {
+	Match.find({job_id : req.params.jobid}, function (err, matches) {
+		if(err) {
+			res.send(null);
+		} else {
+			var applicant_ids = [];
+			matches.forEach(function (element, index, array) {
+				applicant_ids.push(element.user_id);
+			});
+			Applicants.find({_id : {$in : applicant_ids}}, function (err, applicantsback) {
+				if (err) {
+					res.send(null);
+				} else {
+					res.send({applicants: applicantsback});
+				}
+			});
+		}
+	});
 });
 
 /* 
@@ -45,7 +86,7 @@ router.get('/all', function (req, res) {
 router.get('/:id', function(req, res) {
   	Jobs.find({employer_id : req.params.id}, function(err,employers) {
   		if(err) {
-  			throw err;
+  			res.send(null);
   		} else {
   			res.send(employers);
   		}
@@ -233,7 +274,7 @@ var	tempHasMoreAppropriateFieldExperienceLevel = function(match, temp, applicant
 router.post('/create', function(req, res) {
 	Jobs.createJob(req.body, function(err, job) {
 		if(err) {
-			res.send(JSON.parse('{"Job created":"false"}'));
+			res.send(null);
 		} else {
 			res.send(job);
 		}
@@ -246,9 +287,9 @@ router.post('/create', function(req, res) {
 router.post('/update', function(req, res) {
 	Jobs.updateJob(req.body, function(err) {
 		if(err) {
-			res.send(JSON.parse('{"Job updated":"false"}'));
+			res.send({truthity: false});
 		} else {
-			res.send(JSON.parse('{"Job updated":"true"}'));
+			res.send({truthity: true});
 
 		}
 	})
@@ -260,9 +301,29 @@ router.post('/update', function(req, res) {
 router.delete('/delete', function(req, res) {
 	Jobs.deleteJob(req.body._id, function(err) {
 		if(err) {
-			res.send(JSON.parse('{"Job deleted":"false"}'));
+			res.send({truthity: false});
 		} else {
-			res.send(JSON.parse('{"Job deleted":"true"}'));
+			res.send({truthity: true});
+		}
+	});
+});
+
+router.post('/setActive', function(req, res) {
+	Jobs.setActive(req.body._id, function(err) {
+		if(err) {
+			res.send({truthity: false});
+		} else {
+			res.send({truthity: true});
+		}
+	});
+});
+
+router.post('/setInactive', function(req, res) {
+	Jobs.setInactive(req.body._id, function(err) {
+		if(err) {
+			res.send({truthity: false});
+		} else {
+			res.send({truthity: true});
 		}
 	});
 });

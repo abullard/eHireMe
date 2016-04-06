@@ -36,6 +36,9 @@ var JobSchema = new mongoose.Schema({
 	},
 	state : {
 		type : String
+	},
+	active : {
+		type : Boolean
 	}
 });
 
@@ -73,7 +76,8 @@ module.exports.createJob = function(body, callback) {
 			title_experience : titleExperience,
 			field_experience : fieldExperience,
 			city : city,
-			state : state
+			state : state,
+			active : true
 		});
 
 		newJob.save(callback);
@@ -101,12 +105,11 @@ module.exports.getListofJobs = function(employerId, callback) {
 	});
 }
 
-
 /*
  *	Function updates the Job's Mongo Document
  */
 module.exports.updateJob = function(body, callback) {
-	Job.update({'_id': body._id}, body, function(err, success) {
+	Job.update({$and: [{'active' : true}, {'_id': body._id}]}, body, function(err, success) {
 		if(err) {
 			console.log("Something went wrong updating the job, check the _id.");
 			callback(true);
@@ -127,6 +130,46 @@ module.exports.deleteJob = function(jobId, callback) {
 		} else {
 			job.remove();
 			callback(false);
+		}
+	});
+}
+
+/*
+ *	Function looks for an inactive job, and sets it active. This allows employers to stop showing jobs if their position is filled.
+ */
+module.exports.setActive = function(jobId, callback) {
+	Job.update({$and: [{'active' : false}, {'_id' : jobId}]}, {$set: {active: true}}, function(err, job) {
+		if(err) {
+			callback(true);
+		} else {
+			callback(false);
+		}
+	});
+}
+
+/*
+ *	Function looks for an inactive job, and sets it active. This allows employers to stop showing jobs if their position is filled.
+ */
+module.exports.setInactive = function(jobId, callback) {
+	Job.update({$and: [{'active' : true}, {'_id' : jobId}]}, {$set: {active: false}}, function(err, job) {
+		if(err) {
+			callback(true);
+		} else {
+			callback(false);
+		}
+	});
+}
+
+/*
+ *	Function fetches all jobs in the database
+ */
+module.exports.getAllJobs = function(callback) {
+	Job.find({}, function(err, jobs) {
+		if(err) {
+			console.log("Error finding all jobs. Something went seriously wrong.");
+			callback(true, null);
+		} else {
+			callback(false, jobs);
 		}
 	});
 }

@@ -15,7 +15,7 @@ var Job = require('../models/jobs')
 router.get('/:id', function(req, res, next) {
   	Employer.findById(req.params.id, function(err, employer) {
   		if (err) {
-  			res.send('{"user found":"false"}');
+			res.send(null);
   		} else {
   			res.send(employer);
   		}
@@ -32,17 +32,17 @@ router.get('/:id', function(req, res, next) {
  	Employer.findOne({'email': email}, function(err, employer) {
  		// if the password matches, send employer in the response
  		if(err) {
- 		 	res.send(JSON.parse('{"login successful":"false"}'));
+ 		 	res.send(null);
  		} else if (employer != null) {
  			Employer.comparePassword(password, employer.password, function(success) {
  				if(success) {
  					res.send(employer);
  				} else {
-					res.send(JSON.parse('{"login successful":"false"}'));
+					res.send(null);
  				}
  			});
  		} else {
- 			res.send(JSON.parse('{"login successful":"false"}'));
+ 			res.send(null);
  		}
  	});
  });
@@ -54,7 +54,7 @@ router.get('/:id', function(req, res, next) {
 router.post('/register', function(req, res, next) {
 	Employer.createUser(req.body, function(err, user) {
 		if(err) {
-			res.send(JSON.parse('{"User registered":"false"}'));
+			res.send(null);
 		} else {
 			res.send(user);
 		}
@@ -66,9 +66,9 @@ router.post('/update', function(req, res) {
 	Employer.updateUser(req.body, function(err) {
 		if(err) {
 			console.log("User's password cannot be updated from '/update'");
-			res.send(JSON.parse('{"Profile Updated":"false"}'));
+			res.send({truthity: false});
 		} else {
-			res.send(JSON.parse('{"Profile Updated":"true"}'));
+			res.send({truthity: true});
 		}
 	});
 });
@@ -77,9 +77,9 @@ router.post('/update', function(req, res) {
 router.delete('/delete', function(req, res) {
 	Employer.removeUser(req.body._id, function(err) {
 		if(err) {
-			res.send(JSON.parse('{"User removed":"false"}'));
+			res.send({truthity: false});
 		} else {
-			res.send(JSON.parse('{"User removed":"true"}'));
+			res.send({truthity: true});
 
 		}
 	});
@@ -89,10 +89,10 @@ router.delete('/delete', function(req, res) {
 router.post('/addPhoto', function(req, res) {
 	Employer.addUserPhoto(req.body.image, req.body._id, function(err) {
 		if(err) {
-			res.send(JSON.parse('{"Picture uploaded successfully":"false"}'));
+			res.send({truthity: false});
 
 		} else {
-			res.send(JSON.parse('{"Picture uploaded successfully":"true"}'));
+			res.send({truthity: true});
 		}
 	});
 });
@@ -101,7 +101,7 @@ router.post('/addPhoto', function(req, res) {
 router.get('/getPhoto/:id', function(req, res) {
 	Employer.getPhotoURL(req.params.id, function(err, url) {
 		if(err) {
-			res.send(JSON.parse('{"Link Found":"false"}'));
+			res.send(null);
 		} else  {
 			res.send(url);
 		}
@@ -112,9 +112,9 @@ router.get('/getPhoto/:id', function(req, res) {
 router.post('/updatePassword', function(req, res) {
 	Employer.updatePassword(req.body, function(err) {
 		if(err) {
-			res.send(JSON.parse('{"password changed":"false"}'));
+			res.send({truthity: false});
 		} else {
-			res.send(JSON.parse('{"password changed":"true"}'));
+			res.send({truthity: true});
 		}
 	});
 });
@@ -123,20 +123,9 @@ router.post('/updatePassword', function(req, res) {
 router.post('/removeMatch', function(req, res) {
 	Matches.removeMatch(req.body.matchId, function(err) {
 		if(err) {
-			res.send(JSON.parse('{"Match removed" : "false"}'));
+			res.send({truthity: false});
 		} else {
-			res.send(JSON.parse('{"Match removed" : "true"}'));
-		}
-	});
-});
-
-//Extracts the id parameter from the request to find a list of applicants to a specific job
-router.get('/getApplicants/:id', function(req, res) {
-	Matches.getListofApplicants(req.params.id, function(err, applicants) {
-		if(err) {
-			res.send(JSON.parse('{"Applicants found":"true"}'));
-		} else {
-			res.send(applicants);
+			res.send({truthity: true});
 		}
 	});
 });
@@ -145,9 +134,19 @@ router.get('/getApplicants/:id', function(req, res) {
 router.get('/getJobs/:id', function(req, res) {
 	Job.getListofJobs(req.params.id, function(err, jobs) {
 		if(err) {
-			res.send(JSON.parse('{"Job-List Found":"false"}'));
+			res.send(null);
 		} else {
-			res.send(jobs);
+			res.send({jobs: jobs});
+		}
+	});
+});
+
+router.post('/approve', function(req, res) {
+	Matches.ApproveMatch(req.body, function(err) {
+		if(err) {
+			res.send({truthity: false});
+		} else {
+			res.send({truthity: true});
 		}
 	});
 });
