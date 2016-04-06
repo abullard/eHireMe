@@ -51,7 +51,7 @@ module.exports.getListofApplicants = function(job_id, callback) {
 	var applicants = [];
 
 	//find a list of the applicant's from the given job_id
-	Matches.findOne({"job_id": job_id}, function(err, list) {
+	Matches.find({"job_id": job_id}, function(err, list) {
 		if(err) {
 			console.log("There was a problem finding the list of applicants");
 			callback(true, null);

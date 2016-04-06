@@ -24,18 +24,6 @@ router.get('/all', function (req, res) {
 	});
 });
 
-router.post('/exists', function (req, res) {
-	Match.find({$and : [{user_id : req.body.user_id}, { job_id : req.body.job_id}]}, function(err, applicant) {
-		if(err) {
-			res.send(null);
-		} else {
-			var bool = applicant.length > 0;
-			res.send({truthity : bool});
-		}
-	});
-
-});
-
 router.get('/getMatches/:id', function(req, res){
 	Match.find({user_id : req.params.id}, function (err, matches) {
 		if (err){throw err;}
@@ -78,7 +66,7 @@ router.get('/getApplicants/:jobid', function (req, res) {
 router.get('/:id', function(req, res) {
   	Jobs.find({employer_id : req.params.id}, function(err,employers) {
   		if(err) {
-  			throw err;
+  			res.send(null);
   		} else {
   			res.send(employers);
   		}
