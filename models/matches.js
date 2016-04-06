@@ -16,6 +16,9 @@ var MatchesSchema = new mongoose.Schema({
 	},
 	job_id : {
 		type : String
+	},
+	approved : {
+		type : Boolean
 	}
 });
 
@@ -32,7 +35,8 @@ module.exports.apply = function(body, callback) {
 
 	var newMatch = new Matches({
 		user_id : user,
-		job_id : job
+		job_id : job,
+		approved : false
 	});
 
 	newMatch.save(callback);
@@ -62,25 +66,6 @@ module.exports.getListofApplicants = function(job_id, callback) {
 	});
 }
 
-/**
- * Returns an array of jobs that the user has applied to
- * @param user_id
- */
-module.exports.getListofAppliedJobs = function (user_id) {
-
-	Matches.find({user_id : user_id}, function (err, job_ids) {
-		if (err){throw err;}
-		else{
-			job.find({_id : {$in : job_ids}}, function (err, jobs) {
-				if (err) {throw err;}
-				else{
-					return jobs;
-				}
-			});
-		}
-	});
-}
-
 /*
  *	Function removes an entry from the Matches Table
  */
@@ -95,3 +80,16 @@ module.exports.getListofAppliedJobs = function (user_id) {
  		}
  	});
  } 
+
+/*
+ *	Function approves a match between a job and an applicant
+ */
+ module.exports.ApproveMatch = function(body, callback) {
+ 		Matches.update({$and: [{'job_id': body.job_id}, {'user_id': body.user_id}]}, {$set: {approved: true}}, function(err) {
+ 			if(err) {
+ 				callback(true);
+ 			} else {
+ 				callback(false);
+ 			}
+ 		});
+ }

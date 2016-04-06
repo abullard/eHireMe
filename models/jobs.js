@@ -138,11 +138,10 @@ module.exports.deleteJob = function(jobId, callback) {
  *	Function looks for an inactive job, and sets it active. This allows employers to stop showing jobs if their position is filled.
  */
 module.exports.setActive = function(jobId, callback) {
-	Job.findOne({$and: [{'active' : false}, {'job_id' : jobId}]}, function(err, job) {
+	Job.update({$and: [{'active' : false}, {'_id' : jobId}]}, {$set: {active: true}}, function(err, job) {
 		if(err) {
 			callback(true);
 		} else {
-			job.active = true;
 			callback(false);
 		}
 	});
@@ -152,11 +151,10 @@ module.exports.setActive = function(jobId, callback) {
  *	Function looks for an inactive job, and sets it active. This allows employers to stop showing jobs if their position is filled.
  */
 module.exports.setInactive = function(jobId, callback) {
-	Job.findOne({$and: [{'active' : true}, {'job_id' : jobId}]}, function(err, job) {
+	Job.update({$and: [{'active' : true}, {'_id' : jobId}]}, {$set: {active: false}}, function(err, job) {
 		if(err) {
 			callback(true);
 		} else {
-			job.active = false;
 			callback(false);
 		}
 	});

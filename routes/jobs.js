@@ -73,7 +73,7 @@ router.get('/:id', function(req, res) {
 router.post('/create', function(req, res) {
 	Jobs.createJob(req.body, function(err, job) {
 		if(err) {
-			res.send(JSON.parse('{"Job created":"false"}'));
+			res.send(null);
 		} else {
 			res.send(job);
 		}
@@ -86,9 +86,9 @@ router.post('/create', function(req, res) {
 router.post('/update', function(req, res) {
 	Jobs.updateJob(req.body, function(err) {
 		if(err) {
-			res.send(JSON.parse('{"Job updated":"false"}'));
+			res.send({truthity: false});
 		} else {
-			res.send(JSON.parse('{"Job updated":"true"}'));
+			res.send({truthity: true});
 
 		}
 	})
@@ -100,9 +100,9 @@ router.post('/update', function(req, res) {
 router.delete('/delete', function(req, res) {
 	Jobs.deleteJob(req.body._id, function(err) {
 		if(err) {
-			res.send(JSON.parse('{"Job deleted":"false"}'));
+			res.send({truthity: false});
 		} else {
-			res.send(JSON.parse('{"Job deleted":"true"}'));
+			res.send({truthity: true});
 		}
 	});
 });
@@ -110,9 +110,9 @@ router.delete('/delete', function(req, res) {
 router.post('/setActive', function(req, res) {
 	Jobs.setActive(req.body._id, function(err) {
 		if(err) {
-			res.send(JSON.parse('{"active status":"false"}'));
+			res.send({truthity: false});
 		} else {
-			res.send(JSON.parse('{"active status":"true"}'));
+			res.send({truthity: true});
 		}
 	});
 });
@@ -120,9 +120,9 @@ router.post('/setActive', function(req, res) {
 router.post('/setInactive', function(req, res) {
 	Jobs.setInactive(req.body._id, function(err) {
 		if(err) {
-			res.send(JSON.parse('{"active status":"true"}'));
+			res.send({truthity: false});
 		} else {
-			res.send(JSON.parse('{"active status":"false"}'));
+			res.send({truthity: true});
 		}
 	});
 });
