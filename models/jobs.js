@@ -101,6 +101,7 @@ module.exports.getListofJobs = function(employerId, callback) {
 	});
 }
 
+
 /*
  *	Function updates the Job's Mongo Document
  */
