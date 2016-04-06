@@ -26,15 +26,17 @@ router.get('/all', function (req, res) {
 
 router.get('/getMatches/:id', function(req, res){
 	Match.find({user_id : req.params.id}, function (err, matches) {
-		if (err){throw err;}
-		else{
+		if(err){
+			res.send(null);
+		} else {
 			var job_ids = [];
 			matches.forEach(function(element, index, array){
 				job_ids.push(element.job_id);
 			});
 			Jobs.find({_id : {$in : job_ids}}, function (err, jobsback) {
-				if (err) {throw err;}
-				else{
+				if(err) {
+					res.send(null);
+				} else {
 					res.send({jobs: jobsback});
 				}
 			});
@@ -44,15 +46,17 @@ router.get('/getMatches/:id', function(req, res){
 
 router.get('/getApplicants/:jobid', function (req, res) {
 	Match.find({job_id : req.params.jobid}, function (err, matches) {
-		if (err) {throw err;}
-		else{
+		if(err) {
+			res.send(null);
+		} else {
 			var applicant_ids = [];
 			matches.forEach(function (element, index, array) {
 				applicant_ids.push(element.user_id);
 			});
 			Applicants.find({_id : {$in : applicant_ids}}, function (err, applicantsback) {
-				if (err) {throw err;}
-				else{
+				if (err) {
+					res.send(null);
+				} else {
 					res.send({applicants: applicantsback});
 				}
 			});
