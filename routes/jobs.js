@@ -15,26 +15,24 @@ var Match = require('../models/matches');
  */
 router.get('/all', function (req, res) {
 	Jobs.find({}, function (err, employers) {
-		if (err) {
-			throw err;
-		}
-		else{
+		if(err) {
+			console.log("Error finding all jobs.");
+			res.send(null);
+		} else {
 			res.send({jobs: employers});
 		}
 	})
 });
 
 router.post('/exists', function (req, res) {
-	Match.find({$and : [{user_id : req.body.user_id},{ job_id : req.body.job_id}]},function(err,applicant){
-		if(err)
-		{
-			throw err;
-		}
-		else {
+	Match.find({$and : [{user_id : req.body.user_id}, { job_id : req.body.job_id}]}, function(err, applicant) {
+		if(err) {
+			res.send(null);
+		} else {
 			var bool = applicant.length > 0;
-			res.send({truthity:bool});
+			res.send({truthity : bool});
 		}
-	})
+	});
 
 });
 
@@ -105,6 +103,26 @@ router.delete('/delete', function(req, res) {
 			res.send(JSON.parse('{"Job deleted":"false"}'));
 		} else {
 			res.send(JSON.parse('{"Job deleted":"true"}'));
+		}
+	});
+});
+
+router.post('/setActive', function(req, res) {
+	Jobs.setActive(req.body._id, function(err) {
+		if(err) {
+			res.send(JSON.parse('{"active status":"false"}'));
+		} else {
+			res.send(JSON.parse('{"active status":"true"}'));
+		}
+	});
+});
+
+router.post('/setInactive', function(req, res) {
+	Jobs.setInactive(req.body._id, function(err) {
+		if(err) {
+			res.send(JSON.parse('{"active status":"true"}'));
+		} else {
+			res.send(JSON.parse('{"active status":"false"}'));
 		}
 	});
 });
