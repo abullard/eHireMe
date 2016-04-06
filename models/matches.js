@@ -5,7 +5,7 @@
 
  //initlization
  var mongoose = require("mongoose");
- var applicant = require('./applicants.js');
+ var Applicants = require('./applicants.js');
  var employer = require('./employers.js');
  var job = require('./jobs.js');
  var db = mongoose.connection;
