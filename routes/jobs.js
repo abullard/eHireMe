@@ -15,14 +15,13 @@ var Applicants = require('../models/applicants');
  * GET all jobs
  */
 router.get('/all', function (req, res) {
-	Jobs.find({}, function (err, employers) {
+	Jobs.getAllJobs(function(err, jobs) {
 		if(err) {
-			console.log("Error finding all jobs.");
 			res.send(null);
 		} else {
-			res.send(employers);
+			res.send(jobs);
 		}
-	})
+	});
 });
 
 router.post('/exists', function (req, res) {

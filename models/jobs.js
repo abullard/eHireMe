@@ -159,3 +159,17 @@ module.exports.setInactive = function(jobId, callback) {
 		}
 	});
 }
+
+/*
+ *	Function fetches all jobs in the database
+ */
+module.exports.getAllJobs = function(callback) {
+	Job.find({}, function(err, employers) {
+		if(err) {
+			console.log("Error finding all jobs. Something went seriously wrong.");
+			callback(true, null);
+		} else {
+			callback(false, jobs);
+		}
+	});
+}

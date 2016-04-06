@@ -141,4 +141,15 @@ router.post('/removeMatch', function(req, res) {
 	});
 });
 
+router.post('/exists', function (req, res) {
+	Applicant.MatchExists(req.body, function(err, applicant) {
+		if(err) {
+			res.send({truthity: false});
+		} else {
+			var bool = applicant.length > 0;
+			res.send({truthity: bool});
+		}
+	});
+});
+
 module.exports = router;
