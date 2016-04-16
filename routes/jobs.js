@@ -122,7 +122,7 @@ router.post('/match', function (req, res) {
 						unmatchedJobs.splice(newestIndex, 1);
 					}
 
-					res.send(orderedMatches);
+					res.send({jobs: orderedMatches});
 				}
 			});
 

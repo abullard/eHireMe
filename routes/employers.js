@@ -157,6 +157,7 @@ router.post('/didAccept', function(req, res) {
 			res.send({truthity: false});
 		} else {
 			var bool = match.length > 0;
+			console.log(bool);
 			res.send({truthity: bool});
 		}
 	});
