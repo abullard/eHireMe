@@ -5,16 +5,8 @@
 
 var express = require('express');
 var router = express.Router();
-var publicConfig = {
-	key: 'AIzaSyCMkxdk9P8AUKDuCth2EBnCYRKEp-ww0Cs',
-	stagger_time:       1000, // for elevationPath
-	encode_polylines:   false,
-	secure:             true, // use https
-};
-// var gmAPI = new GoogleMapsAPI(publicConfig);
-//var googleReq = require('googlemaps');
-//var google = new googleReq(publicConfig);
 
+//Google Distance Matrix API
 var distance = require('google-distance-matrix');
 distance.key('AIzaSyCMkxdk9P8AUKDuCth2EBnCYRKEp-ww0Cs');
 distance.units('imperial');
@@ -22,10 +14,11 @@ distance.units('imperial');
 var Jobs = require('../models/jobs');
 var Employer = require('../models/employers');
 var Applicant = require('../models/applicants');
-
-var careerLevels = ["No experience","1-3 years","3-5 years","5-10 years","10-20 years","20+ years"];
 var Match = require('../models/matches');
 var Applicants = require('../models/applicants');
+
+//discrete career experience level values
+var careerLevels = ["No experience","1-3 years","3-5 years","5-10 years","10-20 years","20+ years"];
 
 /*
  * GET all jobs
@@ -97,12 +90,13 @@ router.get('/:id', function(req, res) {
  * POST jobs by matching rank
  */
 router.post('/match', function (req, res) {
-
+    
+    //get application with corresponding ID
 	Applicant.find({_id : req.body.id}, function (err, applicant) {
 		if(err) {
 			throw err;
 		} else {
-			//var applicant = applicants[0];
+			//get all jobs
 			Jobs.find({}, function (err, jobsList) {
 				if (err) {
 					throw err;
@@ -114,6 +108,7 @@ router.post('/match', function (req, res) {
 					});
 
 					var orderedMatches = [];
+					//iterate over jobs, remove best match each time and append it to orderedMatches array
 					while(unmatchedJobs.length != 0)
 					{
 						var newestMatch = makeMatch(applicant, unmatchedJobs);
@@ -133,7 +128,7 @@ router.post('/match', function (req, res) {
 });
 
 /*
- * helper function that determines the single best match left unmatchedJobs
+ * helper function that determines the single best match left in unmatchedJobs
  */
 var makeMatch = function(applicant, unmatchedJobs) {
 	var match = null;
@@ -151,15 +146,17 @@ var makeMatch = function(applicant, unmatchedJobs) {
 			var tempFieldMatchesBetter = temp.field == applicant[0].field && !(match.field == applicant[0].field);
 			var titlesAlreadyMatch = match.title == applicant[0].title;
 			var fieldsAlreadyMatch = match.getField == applicant[0].field;
-
+            
+            //determine applicant distance from temp and match to see which is closer
 			var applicantLocation = applicant[0].city + ", " + applicant[0].state;
 			var tempLocation = temp.city + ", " + temp.state;
 			var matchLocation = match.city + ", " + match.state;
 
 			var origins = [applicantLocation];
 			var destinations = [tempLocation, matchLocation];
-
+            
 			var tempIsCloser;
+			//using Google's Distance Matrix API
 			distance.matrix(origins, destinations, function (err, distances) {
 				if (!err) {
 
@@ -174,36 +171,46 @@ var makeMatch = function(applicant, unmatchedJobs) {
 					tempIsCloser = tempDistance < matchDistance;
 				}
 			});
-
+			
+            //applicant had a preferred title
 			if (applicant.title != null) {
+			    //best match
 				if (tempTitlesMatch && tempHasMoreAppropriateTitleExperienceLevel(match, temp, applicant) > 0) {
 					match = temp;
 				}
+				//same title match, but closer
 				else if(tempTitlesMatch && tempIsCloser && tempHasMoreAppropriateTitleExperienceLevel(match, temp, applicant) == 0)
 				{
 					match = temp;
 				}
+				//temp title matches, while var matches didn't
 				else if(tempTitleMatchesBetter)
 				{
 					match = temp;
 				}
+				//best match given titles don't match
 				else if(tempFieldsMatch && tempHasMoreAppropriateFieldExperienceLevel(match, temp, applicant) > 0 && !titlesAlreadyMatch)
 				{
 					match = temp;
 				}
+				//same field match, but closer
 				else if(tempFieldsMatch && tempIsCloser && tempHasMoreAppropriateFieldExperienceLevel(match, temp, applicant) == 0 && !titlesAlreadyMatch)
 				{
 					match = temp;
 				}
+				//temp field match, but var matches didn't
 				else if(tempFieldMatchesBetter && !titlesAlreadyMatch)
 				{
 					match = temp;
 				}
+				//all else fails, closer job is better
 				else if(!titlesAlreadyMatch && !fieldsAlreadyMatch && tempIsCloser)
 				{
 					match = temp;
 				}
 			}
+			
+			//title was not provided
 			else
 			{
 				if(tempFieldsMatch && tempHasMoreAppropriateFieldExperienceLevel(match, temp, applicant) > 0)
@@ -228,8 +235,10 @@ var makeMatch = function(applicant, unmatchedJobs) {
 	return match;
 }
 
+//finds out which job has the closer title experience level
 var	tempHasMoreAppropriateTitleExperienceLevel = function(match, temp, applicant)
 {
+    //locates experience level in careerLevels array
 	var applicantIndex = careerLevels.indexOf(applicant[0].title_experience);
 	var matchIndex = careerLevels.indexOf(match.title_experience);
 	var tempIndex = careerLevels.indexOf(temp.title_experience);
@@ -248,8 +257,10 @@ var	tempHasMoreAppropriateTitleExperienceLevel = function(match, temp, applicant
 	return 0;
 }
 
+//finds out which job has the closer title experience level
 var	tempHasMoreAppropriateFieldExperienceLevel = function(match, temp, applicant)
 {
+    //locates experience level in careerLevels array
 	var applicantIndex = careerLevels.indexOf(applicant[0].field_experience);
 	var matchIndex = careerLevels.indexOf(match.field_experience);
 	var tempIndex = careerLevels.indexOf(temp.field_experience);
