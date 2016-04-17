@@ -45,8 +45,8 @@ module.exports.apply = function(body, callback) {
 /*
  *	Function removes an entry from the Matches Table
  */
- module.exports.removeMatch = function(matchId, callback) {
- 	Matches.remove({'_id' : matchId}, function(err) {
+ module.exports.removeMatch = function(jobid, applicantid, callback) {
+ 	Matches.remove({$and: [{'user_id' : applicantid}, {'job_id': jobid}]}, function(err) {
  		if(err) {
  			console.log("There was an error removing the match.");
  			callback(true);
