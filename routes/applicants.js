@@ -132,7 +132,7 @@ router.post('/makeMatch', function(req, res) {
 
 //Extracts request body to remove a match between user and job
 router.post('/removeMatch', function(req, res) {
-	Matches.removeMatch(req.body.matchId, function(err) {
+	Matches.removeMatch(req.body.job_id, req.body.user_id, function(err) {
 		if(err) {
 			res.send({truthity: false});
 		} else {
