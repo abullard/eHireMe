@@ -332,6 +332,80 @@ router.post('/update', function(req, res) {
 	})
 });
 
+router.post('/search', function (req, res) {
+	Jobs.find({}, function (err, jobsList) {
+		var unsortedJobs = [];
+		jobsList.forEach(function(job) {
+			unsortedJobs.push(job);
+		});
+		var matches = [];
+		var companyPresent = req.body.company_name.length != 0;
+		var fieldPresent = req.body.field.length != 0;
+		var titlePresent = req.body.title.length != 0;
+		if(companyPresent)
+		{
+			var unsortedLength = unsortedJobs.length;
+			for(i = 0; i < unsortedLength; i+=1)
+			{
+				if(unsortedJobs[i].company_name == req.body.company_name)
+				{
+					matches.push(unsortedJobs[i]);
+					unsortedJobs.splice(i, 1);
+					unsortedLength--;
+					i--;
+				}
+			}
+		}
+
+		if(companyPresent && (fieldPresent || titlePresent))
+		{
+			unsortedJobs = matches;
+			matches = [];
+		}
+
+		if(fieldPresent)
+		{
+			var unsortedLength = unsortedJobs.length;
+			for(i = 0; i < unsortedLength; i+=1)
+			{
+				if(unsortedJobs[i].field == req.body.field)
+				{
+					matches.push(unsortedJobs[i]);
+					unsortedJobs.splice(i, 1);
+					unsortedLength--;
+					i--;
+				}
+			}
+
+		}
+
+		if(fieldPresent && titlePresent)
+		{
+			unsortedJobs = matches;
+			matches = [];
+		}
+
+		if(titlePresent)
+		{
+			var unsortedLength = unsortedJobs.length;
+			for(i = 0; i < unsortedLength; i+=1)
+			{
+				if(unsortedJobs[i].title == req.body.title)
+				{
+					matches.push(unsortedJobs[i]);
+					unsortedJobs.splice(i, 1);
+					unsortedLength--;
+					i--;
+				}
+			}
+		}
+
+		res.send(matches);
+	})
+
+
+})
+
 /*
  *	DELETE - removes job from database
  */
