@@ -345,7 +345,7 @@ router.post('/search', function (req, res) {
 		if(companyPresent)
 		{
 			var unsortedLength = unsortedJobs.length;
-			for(i = 0; i < unsortedLength; i+=1)
+			for(var i = 0; i < unsortedLength; i+=1)
 			{
 				if(unsortedJobs[i].company_name == req.body.company_name)
 				{
