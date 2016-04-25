@@ -73,6 +73,32 @@ router.get('/getApplicants/:jobid', function (req, res) {
 	});
 });
 
+router.get('/getThreeAttributes', function (req, res) {
+	var company_names = [];
+	var titles = [];
+	var fields = [];
+
+	Jobs.find({}, function (err, jobs) {
+		if (err){
+			res.send(null);
+		}
+		else {
+			jobs.forEach(function (job, index, array) {
+				if (company_names.indexOf(job.company_name) == -1){
+					company_names.push(job.company_name);
+				}
+				if (titles.indexOf(job.title) == -1){
+					titles.push(job.title);
+				}
+				if (fields.indexOf(job.field) == -1){
+					fields.push(job.field);
+				}
+			});
+			res.send({company_names: company_names, titles: titles, fields: fields});
+		}
+	});
+});
+
 /* 
  * GET jobs by their employer id. 
  */
