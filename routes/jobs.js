@@ -400,7 +400,7 @@ router.post('/search', function (req, res) {
 			}
 		}
 
-		res.send(matches);
+		res.send({jobs: matches});
 	})
 
 
