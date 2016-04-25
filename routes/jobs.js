@@ -18,7 +18,7 @@ var Match = require('../models/matches');
 var Applicants = require('../models/applicants');
 
 //discrete career experience level values
-var careerLevels = ["No experience","1-3 years","3-5 years","5-10 years","10-20 years","20+ years"];
+var careerLevels = ["No experience","1-2 years","3-5 years","5-10 years","10-20 years","20+ years"];
 
 /*
  * GET all jobs
