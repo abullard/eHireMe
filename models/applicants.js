@@ -5,6 +5,7 @@
 
 var mongoose = require('mongoose');
 var Matches = require('../models/matches');
+var hashPass = require('password-hash');
 var db = mongoose.connection;
 
 //Require the imgur module for image hosting
@@ -62,25 +63,18 @@ var Applicant = module.exports = mongoose.model('applicants', ApplicantSchema);
 
 /*
  *	Function hashs user's password. 
- *	TODO - UPDATE HASHING METHOD, TOO SIMPLE ATM
  */
-var hash = function (str) {
-	var result = "";
-	var charcode = 0;
-	for (var i = 0; i < str.length; i++) {
-        charcode = (str[i].charCodeAt()) + 3;
-        result += String.fromCharCode(charcode);	
-    }
-	return result;
+var hashp = function(str) {
+	var hashedPassword = hashPass.generate(str);
+	return hashedPassword;
 };
 
 /*
  *	Function compares the login password given, to the user's stored password.
  */
-module.exports.comparePassword = function(candidatePassword, hashp, callback) {
-	candidatePassword = hash(candidatePassword);
-	if (candidatePassword == hashp) {
-		console.log("something went wrong hashing the passwords, comparison failed.");
+module.exports.comparePassword = function(applicantPassword, hashpass, callback) {
+	var passMatch = hashPass.verify(applicantPassword, hashpass);
+	if (passMatch) {
 		callback(true);
 	} else {
 		callback(false);
@@ -101,8 +95,9 @@ module.exports.createUser = function(body, callback) {
 		var dob = body.dob;
 		var age = body.age;
 		var email = body.email.toLowerCase().trim();
-		var password = hash(body.password);
-		var confirmPass = hash(body.confirmPass);
+		var password = hashp(body.password);
+		var confirmPass = body.confirmPass;
+		var passMatch = hashPass.verify(confirmPass, password);
 		var bio = body.bio;
 		var city = body.city;
 		var state = body.state;
@@ -112,7 +107,7 @@ module.exports.createUser = function(body, callback) {
 		var fieldExperience = body.field_experience;
 		var phoneNumber = body.phoneNumber;
 
-		if(password != confirmPass) {
+		if(!passMatch) {
 			console.log("Passwords do not match.");
 			callback(true, null);
 		} else {
@@ -141,8 +136,8 @@ module.exports.createUser = function(body, callback) {
  *	Function updates the user's password in their mongo document
  */
 module.exports.updatePassword = function(body, callback) {
-	var confirmPass = hash(body.confirmPass);
-	var password = hash(body.password);
+	var confirmPass = hashp(body.confirmPass);
+	var password = hashp(body.password);
 
 	if(password != confirmPass) {
 		callback(true);

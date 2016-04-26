@@ -6,6 +6,7 @@
 var mongoose = require('mongoose');
 var db = mongoose.connection;
 
+var hashPass = require('password-hash');
 var Applicant = require('../models/applicants');
 var Employer = require('../models/employers');
 var Jobs = require('../models/jobs');
@@ -26,22 +27,17 @@ var Admin = module.exports = mongoose.model('admin', AdminSchema);
  *	Function hashs admin's password. 
  *	TODO - UPDATE HASHING METHOD, TOO SIMPLE ATM
  */
-var hash = function (str) {
-	var result = "";
-	var charcode = 0;
-	for (var i = 0; i < str.length; i++) {
-        charcode = (str[i].charCodeAt()) + 3;
-        result += String.fromCharCode(charcode);	
-    }
-	return result;
+var hashp = function (str) {
+	var hashedPassword = hashPass.generate(str);
+	return hashedPassword;
 };
 
 /*
  *	Function compares the login password given, to the admin's stored password.
  */
-module.exports.comparePassword = function(candidatePassword, hashp, callback) {
-	candidatePassword = hash(candidatePassword);
-	if (candidatePassword == hashp) {
+module.exports.comparePassword = function(adminPassword, hashpass, callback) {
+	var passMatch = hashPass.verify(adminPassword, hashpass);
+	if (passMatch) {
 		callback(true);
 	} else {
 		callback(false);
@@ -58,11 +54,12 @@ module.exports.createAdmin = function(body, callback) {
 		console.log("Required fields are: password, confirmPass, and email");
 		callback(true, null);
 	} else {
-		var password = hash(body.password);
-		var confirmPass = hash(body.confirmPass);
+		var password = hashp(body.password);
+		var confirmPass = body.confirmPass;
+		var passMatch = hashPass.verify(confirmPass, password);
 		var email = body.email;
 
-		if(password != confirmPass) {
+		if(!passMatch) {
 			console.log("Passwords do not match");
 			callback(true, null);
 		} else {

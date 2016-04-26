@@ -5,6 +5,7 @@
 
 var mongoose = require('mongoose');
 var db = mongoose.connection;
+var hashPass = require('password-hash');
 
 //Require the imgur module for image hosting
 var imgur = require('imgur');
@@ -34,28 +35,21 @@ var Employer = module.exports = mongoose.model('employers', EmployerSchema);
 
 /*
  *	Function hashs employer's password. 
- *	TODO - UPDATE HASHING METHOD, TOO SIMPLE ATM
  */
-var hash = function (str) {
-	var result = "";
-	var charcode = 0;
-	for (var i = 0; i < str.length; i++) {
-        charcode = (str[i].charCodeAt()) + 3;
-        result += String.fromCharCode(charcode);	
-    }
-	return result;
+var hashp = function (str) {
+	var hashedPassword = hashPass.generate(str);
+	return hashedPassword;
 };
 
 /*
  *	Function compares the login password given, to the employer's stored password.
  */
-module.exports.comparePassword = function(candidatePassword, hashp, callback) {
-	candidatePassword = hash(candidatePassword);
-	if (candidatePassword != hashp) {
-		console.log("Something went wrong hashing the passwords, comparison failed.");
-		callback(false);
-	} else {
+module.exports.comparePassword = function(employerPassword, hashpass, callback) {
+	var passMatch = hashPass.verify(employerPassword, hashpass);
+	if (passMatch) {
 		callback(true);
+	} else {
+		callback(false);
 	}
 }
 
@@ -70,11 +64,12 @@ module.exports.createUser = function(body, callback) {
 	} else {
 		var company  = body.company;
 		var email = body.email.toLowerCase().trim();
-		var password = hash(body.password);
-		var confirmPass = hash(body.confirmPass);
+		var password = hashp(body.password);
+		var confirmPass = body.confirmPass;
+		var passMatch = hashPass.verify(confirmPass, password);
 		var description = body.description;
 
-		if(password != confirmPass) {
+		if(!passMatch) {
 			callback(true, null);
 		} else {
 			var newEmployer = new Employer({
