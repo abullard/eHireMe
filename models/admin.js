@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var db = mongoose.connection;
 
 var Applicant = require('../models/applicants');
-var Employer = require('../models/employer');
+var Employer = require('../models/employers');
 var Jobs = require('../models/jobs');
 
 //Admin Schema
@@ -42,9 +42,9 @@ var hash = function (str) {
 module.exports.comparePassword = function(candidatePassword, hashp, callback) {
 	candidatePassword = hash(candidatePassword);
 	if (candidatePassword == hashp) {
-		callback(null, true);
+		callback(true);
 	} else {
-		callback(null, false);
+		callback(false);
 	}
 }
 
@@ -66,14 +66,12 @@ module.exports.createAdmin = function(body, callback) {
 			console.log("Passwords do not match");
 			callback(true, null);
 		} else {
-
 			var newAdmin = new Admin ({
 				password : password,
 				email : email
 			});
 			newAdmin.save(callback);
 		}
-
 	}
 }
 
@@ -101,9 +99,9 @@ module.exports.removeUser = function(body, callback) {
 	if(type == "admin") {
 		Admin.removeAdmin(body, callback);
 	} else if(type == "applicant") {
-		Applicant.createUser(body, callback);
+		Applicant.removeUser(body, callback);
 	} else if(type == "employer") {
-		Employer.createUser(body, callback);
+		Employer.removeUser(body, callback);
 	} else {
 		console.log("error, user type doesn't exist.");
 		callback(true, null);
