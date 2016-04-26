@@ -18,7 +18,7 @@ var Match = require('../models/matches');
 var Applicants = require('../models/applicants');
 
 //discrete career experience level values
-var careerLevels = ["No experience","1-3 years","3-5 years","5-10 years","10-20 years","20+ years"];
+var careerLevels = ["No experience","1-2 years","3-5 years","5-10 years","10-20 years","20+ years"];
 
 /*
  * GET all jobs
@@ -69,6 +69,32 @@ router.get('/getApplicants/:jobid', function (req, res) {
 					res.send({applicants: applicantsback});
 				}
 			});
+		}
+	});
+});
+
+router.get('/getThreeAttributes', function (req, res) {
+	var company_names = [];
+	var titles = [];
+	var fields = [];
+
+	Jobs.find({}, function (err, jobs) {
+		if (err){
+			res.send(null);
+		}
+		else {
+			jobs.forEach(function (job, index, array) {
+				if (company_names.indexOf(job.company_name) == -1){
+					company_names.push(job.company_name);
+				}
+				if (titles.indexOf(job.title) == -1){
+					titles.push(job.title);
+				}
+				if (fields.indexOf(job.field) == -1){
+					fields.push(job.field);
+				}
+			});
+			res.send({company_names: company_names, titles: titles, fields: fields});
 		}
 	});
 });
@@ -305,6 +331,80 @@ router.post('/update', function(req, res) {
 		}
 	})
 });
+
+router.post('/search', function (req, res) {
+	Jobs.find({}, function (err, jobsList) {
+		var unsortedJobs = [];
+		jobsList.forEach(function(job) {
+			unsortedJobs.push(job);
+		});
+		var matches = [];
+		var companyPresent = req.body.company_name.length != 0;
+		var fieldPresent = req.body.field.length != 0;
+		var titlePresent = req.body.title.length != 0;
+		if(companyPresent)
+		{
+			var unsortedLength = unsortedJobs.length;
+			for(var i = 0; i < unsortedLength; i+=1)
+			{
+				if(unsortedJobs[i].company_name == req.body.company_name)
+				{
+					matches.push(unsortedJobs[i]);
+					unsortedJobs.splice(i, 1);
+					unsortedLength--;
+					i--;
+				}
+			}
+		}
+
+		if(companyPresent && (fieldPresent || titlePresent))
+		{
+			unsortedJobs = matches;
+			matches = [];
+		}
+
+		if(fieldPresent)
+		{
+			var unsortedLength = unsortedJobs.length;
+			for(i = 0; i < unsortedLength; i+=1)
+			{
+				if(unsortedJobs[i].field == req.body.field)
+				{
+					matches.push(unsortedJobs[i]);
+					unsortedJobs.splice(i, 1);
+					unsortedLength--;
+					i--;
+				}
+			}
+
+		}
+
+		if(fieldPresent && titlePresent)
+		{
+			unsortedJobs = matches;
+			matches = [];
+		}
+
+		if(titlePresent)
+		{
+			var unsortedLength = unsortedJobs.length;
+			for(i = 0; i < unsortedLength; i+=1)
+			{
+				if(unsortedJobs[i].title == req.body.title)
+				{
+					matches.push(unsortedJobs[i]);
+					unsortedJobs.splice(i, 1);
+					unsortedLength--;
+					i--;
+				}
+			}
+		}
+
+		res.send(matches);
+	})
+
+
+})
 
 /*
  *	DELETE - removes job from database
