@@ -8,7 +8,8 @@ var router = express.Router();
 
 //Google Distance Matrix API
 var distance = require('google-distance-matrix');
-distance.key('AIzaSyCMkxdk9P8AUKDuCth2EBnCYRKEp-ww0Cs');
+// distance.key('AIzaSyCMkxdk9P8AUKDuCth2EBnCYRKEp-ww0Cs');
+distance.key('AIzaSyCxFv0ayCZmzqUBsqehNo3wRLwrYUNLJoI');
 distance.units('imperial');
 
 var Jobs = require('../models/jobs');
@@ -185,7 +186,6 @@ var makeMatch = function(applicant, unmatchedJobs) {
 			//using Google's Distance Matrix API
 			distance.matrix(origins, destinations, function (err, distances) {
 				if (!err) {
-
 					var tempDistance = distances.rows[0].elements[0].distance.text;
 					tempDistance = tempDistance.substr(0, tempDistance.indexOf(' '));
 					tempDistance = tempDistance.split(",").join("");
