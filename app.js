@@ -14,6 +14,7 @@ var routes = require('./routes/index');
 var applicants = require('./routes/applicants');
 var employers = require('./routes/employers');
 var jobs = require('./routes/jobs');
+var admin = require('./routes/admin');
 
 var app = express();
 
@@ -33,6 +34,7 @@ app.use('/', routes);
 app.use('/applicants', applicants);
 app.use('/employers', employers);
 app.use('/jobs', jobs);
+app.use('/admin', admin);
 
 var mongoose = require('mongoose');
 //mongoose.connect(process.env.MONGOLAB_URI);

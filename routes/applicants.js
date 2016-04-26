@@ -32,7 +32,7 @@ router.get('/:id', function(req, res, next) {
  		// if the password matches, send applicant in the response, otherwise
  		// send an empty object
  		if (err) {
- 			throw err;
+ 			res.send(null);
  		} else if (applicant != null) {
  			Applicant.comparePassword(password, applicant.password, function(success) {
  				if (success) {
