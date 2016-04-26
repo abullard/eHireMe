@@ -52,6 +52,9 @@ var ApplicantSchema = new mongoose.Schema({
 	},
 	field_experience : {
 		type : String
+	},
+	phoneNumber : {
+		type: String
 	}
 });
 
@@ -107,6 +110,7 @@ module.exports.createUser = function(body, callback) {
 		var field = body.field;
 		var titleExperience = body.title_experience;
 		var fieldExperience = body.field_experience;
+		var phoneNumber = body.phoneNumber;
 
 		if(password != confirmPass) {
 			console.log("Passwords do not match.");
@@ -125,7 +129,8 @@ module.exports.createUser = function(body, callback) {
 				title : title,
 				field : field,
 				title_experience : titleExperience,
-				field_experience : fieldExperience
+				field_experience : fieldExperience,
+				phoneNumber : phoneNumber
 			});
 			newUser.save(callback);
 		}
