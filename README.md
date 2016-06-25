@@ -2,12 +2,16 @@
 Com Sci 309 Group Project
 -------------------------
 Created By: 
-Austin Bullard - NodeJS server side development\n
-Timothe Smith - Google API/Matchmaking algorithm\n
-Adam Heimendinger - Android front end\n
-Mac Liu - iOS front end\n
 
-\models and \routes contains all of the backend stuff written by me.\n
+Austin Bullard - NodeJS server side development
+
+Timothe Smith - Google API/Matchmaking algorithm
+
+Adam Heimendinger - Android front end
+
+Mac Liu - iOS front end
+
+\models and \routes contains all of the backend stuff written by me.
 
 eHireMe was designed to connect local businesses with potential employees. Given information about the applicant that applies for a listed job, the small business could then extend an offer to talk on the phone, and possibly set up a time for an interview.
 
