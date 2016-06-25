@@ -13,7 +13,11 @@ Mac Liu - iOS front end
 
 \models and \routes contains all of the backend stuff written by me.
 
-eHireMe was designed to connect local businesses with potential employees. Given information about the applicant that applies for a listed job, the small business could then extend an offer to talk on the phone, and possibly set up a time for an interview.
+eHireMe is a native Android/iOS mobile application developed to simplify the
+hiring process for local small businesses around the nation. By allowing
+users to create a detailed profile, we give small businesses the easiest way
+to view potentional cantidates and make quick decisions about who to extend an 
+interview to.  
 
 Most of the inspiration was drawn from Tinder, and the UI of both Native applications was built to function like it.
 
